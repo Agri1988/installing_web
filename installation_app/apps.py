@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class InstallationConfig(AppConfig):
-    name = 'installation'
+    name = 'installation_app'

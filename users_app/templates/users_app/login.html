@@ -1,0 +1,18 @@
+{% extends 'base_app/base.html' %}
+{% block body %}
+    {% if user.is_authenticated %}
+        Witam, {{ user }}. <a href="{% url 'users_app:logout' %}">LogOut</a>
+    {% else %}
+        {% if form.errors %}
+            <p>Wprowadzone błędne dane</p>
+        {% endif %}
+
+        <form method="post" action="{% url 'users_app:login' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button name="submit">Wejść</button>
+            <input type="hidden" name="next" value="{% url 'base_app:index' %}">
+        </form>
+    {% endif %}
+
+{% endblock %}
