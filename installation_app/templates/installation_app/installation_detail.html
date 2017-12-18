@@ -1,0 +1,8 @@
+{% extends 'base_app/base.html' %}
+{% block body %}
+    <form method="post" action="{% url 'installation_app:installation_detail' installation_id%}">
+        {% csrf_token %}
+        {{ installation_form.as_p }}
+        <button name="submit">Zapisać</button>
+    </form>
+{% endblock %}

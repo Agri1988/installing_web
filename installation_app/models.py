@@ -10,16 +10,20 @@ class Installation(models.Model):
     time_slot = models.CharField(verbose_name='Slot czasowy', max_length=64, choices=time_slot_choices, blank=False,
                                  null=False)
     address = models.CharField(verbose_name='Adres', max_length=256, blank=False, null=False)
-    employee_1 = models.ForeignKey(User, related_name='+', on_delete=models.PROTECT, blank=False, null=False)
-    employee_2 = models.ForeignKey(User, related_name='+', on_delete=models.PROTECT, default=None, blank=True,
+    employee_1 = models.ForeignKey(User, related_name='employee_1', on_delete=models.PROTECT, blank=False, null=False)
+    employee_2 = models.ForeignKey(User, related_name='employee_2', on_delete=models.PROTECT, default=None, blank=True,
                                    null=True)
-    employee_3 = models.ForeignKey(User, related_name='+', on_delete=models.PROTECT, default=None,
+    employee_3 = models.ForeignKey(User, related_name='employee_3', on_delete=models.PROTECT, default=None,
                                    blank=True, null=True)
     success = models.BooleanField(default=False)
     accepted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.number + str(self.date) + self.address
+
+    def save(self, *args, **kwargs):
+        self.number = self.number.upper()
+        super(Installation, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Instalacja'

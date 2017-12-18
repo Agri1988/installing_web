@@ -11,7 +11,7 @@
             {% csrf_token %}
             {{ form.as_p }}
             <button name="submit">Wejść</button>
-            <input type="hidden" name="next" value="{% url 'base_app:index' %}">
+            <input type="hidden" name="next" value="{% url 'installation_app:all_installation' %}">
         </form>
     {% endif %}
 

@@ -27,14 +27,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-      <a class="navbar-brand" href="{% url 'base_app:index' %}">Instalacje</a>
+      <a class="navbar-brand" href="{% url 'installation_app:all_installation' %}">Instalacje</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="/">Lista instalacje</a></li>
-        <!--<li class="dropdown">
+        <!--<li><a href="">Lista instalacje</a></li>
+        <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="#">Действие</a></li>
@@ -54,7 +54,12 @@
         <button type="submit" class="btn btn-default">Отправить</button>
       </form>-->
       <ul class="nav navbar-nav navbar-right">
-            <li><a href="{% url 'users_app:login' %}">LogIn</a></li>
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'users_app:user_data' %}">Dane użytkownika</a></li>
+          {% else %}
+              <li><a href="{% url 'users_app:login' %}">LogIn</a></li>
+          {% endif %}
+
       </ul>
         <!--
         <li class="dropdown">
@@ -74,7 +79,7 @@
     {% block body %}
         <div>
             {% if user.is_authenticated %}
-                Witam, {{ user }}. <a href="{% url 'users_app:logout' %}">LogOut</a>
+                Witaj, {{ user }}. <a href="{% url 'users_app:logout' %}">LogOut</a>
             {% else %}
                 <a href="{% url 'users_app:login'%}"> LogIn</a>
             {% endif %}

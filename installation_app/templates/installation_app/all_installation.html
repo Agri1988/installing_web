@@ -1,0 +1,85 @@
+{% extends 'base_app/base.html' %}
+{% load staticfiles %}
+{% block body %}
+    <script src="{% static "instalation_app/js/all_installation.js" %}"></script>
+    <script type="text/javascript">var all_installation_link = "{% url 'installation_app:all_installation' %}"</script>
+    <div style="padding-bottom: 15px">
+        Dzisiaj: {{ today_weekday }} {{ today_date }}
+    </div>
+    <div>
+        <form action="{% url 'installation_app:all_installation' %}" id="search_form">
+            <input type="date" id="search_date">
+            <input type="button" value="Wyszukuj" id="search_date_button">
+        </form>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-1">
+            <div>
+                {% for day in days_list %}
+                    <a href="{% url 'installation_app:all_installation'  day|make_list|slice:':-8'|join:'' day|make_list|slice:'-7:-5'|join:'' day|make_list|slice:'-4:'|join:'' %}">
+                        {{ day }}</a>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <div class="col-lg-11">
+            <table border="2px" id="table">
+                <tr id="search_fields">
+                    <th><input style="width: 50px"></th>
+                    <th><input style="width: 200px"></th>
+                    <th><input style="width: 50px"></th>
+                    <th><input style="width: 50px"></th>
+                    <th><input style="width: 200px"></th>
+                    <th><input style="width: 80px"></th>
+                    <th><input style="width: 80px"></th>
+                    <th><input style="width: 80px"></th>
+                    <th><input style="width: 80px"></th>
+                    <th><input style="width: 80px"></th>
+                </tr>
+                <tr>
+                    <th>№<br>п/п</th>
+                    <th>Numer<br>zlecenia</th>
+                    <th>Data</th>
+                    <th>Slot<br>czasowy</th>
+                    <th>Adres</th>
+                    <th>Pierwszy<br>pracownik</th>
+                    <th>Drugi<br>pracownik</th>
+                    <th>Trzeci<br>pracownik</th>
+                    <th>Skuteczność</th>
+                    <th>Potwierdzone<br>dyspozytorem</th>
+                </tr>
+                {% for installation in installations %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><a href="{% url 'installation_app:installation_detail' installation.id%}">{{ installation.number }}</a></td>
+                        <td>{{ installation.date }}</td>
+                        <td>{{ installation.get_time_slot_display }}</td>
+                        <td>{{ installation.address }}</td>
+                        <td>{{ installation.employee_1 }}</td>
+                        <td>{{ installation.employee_2 }}</td>
+                        <td>{{ installation.employee_3 }}</td>
+                        {% if installation.success == '1' %}
+                            <td>Skuteczna</td>
+                            {% else %}
+                            <td>Nie skuteczna</td>
+                        {% endif %}
+                        {% if installation.accepted == '1' %}
+                            <td>Akceptowana</td>
+                            {% else %}
+                            <td>Nie akceptowana</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+
+            </table>
+            <a href="{% url 'installation_app:installation_detail' 0%}"> Dodaj instalację</a>
+        </div>
+
+    </div>
+
+
+
+{% endblock %}
