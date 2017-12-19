@@ -76,14 +76,17 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+    <div>
+        {% if user.is_authenticated %}
+            Witaj, {{ user }}. <a href="{% url 'users_app:logout' %}">LogOut</a>
+        {% else %}
+            <a href="{% url 'users_app:login'%}"> LogIn</a>
+        {% endif %}
+    </div>
+    <div>
+        Dzisiaj: {{ today_weekday }} {{ today_date }}
+    </div>
     {% block body %}
-        <div>
-            {% if user.is_authenticated %}
-                Witaj, {{ user }}. <a href="{% url 'users_app:logout' %}">LogOut</a>
-            {% else %}
-                <a href="{% url 'users_app:login'%}"> LogIn</a>
-            {% endif %}
-        </div>
 
     {% endblock body %}
 

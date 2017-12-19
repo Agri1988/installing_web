@@ -1,8 +1,5 @@
 {% extends 'base_app/base.html' %}
 {% block body %}
-    {% if user.is_authenticated %}
-        Witam, {{ user }}. <a href="{% url 'users_app:logout' %}">LogOut</a>
-    {% else %}
         {% if form.errors %}
             <p>Wprowadzone błędne dane</p>
         {% endif %}
@@ -13,6 +10,4 @@
             <button name="submit">Wejść</button>
             <input type="hidden" name="next" value="{% url 'installation_app:all_installation' %}">
         </form>
-    {% endif %}
-
 {% endblock %}

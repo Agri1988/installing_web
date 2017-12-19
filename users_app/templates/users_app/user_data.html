@@ -1,13 +1,17 @@
-{% extends 'base_app/base.html' %}
+{% extends 'users_app/login.html' %}
 {% block body %}
-    <div style="padding-bottom: 15px">
-        Witaj, {{ user }}. <a href="{% url 'users_app:logout' %}">LogOut</a>
-    </div>
-
-    <form action="{% url 'users_app:user_data' %}" method="post">
+    <div>
+        <form action="{% url 'users_app:user_data' %}" method="post">
         {% csrf_token %}
         {{ user_change_form.as_p }}
         <button>Zapisać</button>
-    </form>
+        </form>
+    </div>
+    <div>
+        <a href="{% url 'users_app:password_change' %}" >
+            Zmienić hasło
+        </a>
+    </div>
+
 
 {% endblock %}

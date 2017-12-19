@@ -3,15 +3,20 @@
 {% block body %}
     <script src="{% static "instalation_app/js/all_installation.js" %}"></script>
     <script type="text/javascript">var all_installation_link = "{% url 'installation_app:all_installation' %}"</script>
-    <div style="padding-bottom: 15px">
-        Dzisiaj: {{ today_weekday }} {{ today_date }}
+    <div style="overflow: hidden">
+        <div style="width: 1000%">
+{#            <div style="float: left; width: 200px; height: 50px;">#}
+{#                Dzisiaj: {{ today_weekday }} {{ today_date }}#}
+{#            </div>#}
+            <div>
+                <form action="{% url 'installation_app:all_installation' %}" id="search_form">
+                    <input type="date" id="search_date">
+                    <input type="button" value="Wyszukuj" id="search_date_button">
+                </form>
+            </div>
+        </div>
     </div>
-    <div>
-        <form action="{% url 'installation_app:all_installation' %}" id="search_form">
-            <input type="date" id="search_date">
-            <input type="button" value="Wyszukuj" id="search_date_button">
-        </form>
-    </div>
+
 
     <div class="row">
 
@@ -28,48 +33,76 @@
         <div class="col-lg-11">
             <table border="2px" id="table">
                 <tr id="search_fields">
-                    <th><input style="width: 50px"></th>
-                    <th><input style="width: 200px"></th>
-                    <th><input style="width: 50px"></th>
-                    <th><input style="width: 50px"></th>
-                    <th><input style="width: 200px"></th>
-                    <th><input style="width: 80px"></th>
-                    <th><input style="width: 80px"></th>
-                    <th><input style="width: 80px"></th>
-                    <th><input style="width: 80px"></th>
-                    <th><input style="width: 80px"></th>
+                    <th><input style="width:100%"></th>
+                    <th><input style="width: 100%"></th>
+                    <th><input style="width: 100%"></th>
+                    <th><input style="width: 100%"></th>
+                    <th><input style="width: 100%"></th>
+                    <th><input style="width: 100%"></th>
+                    <th><input style="width: 100%"></th>
+                    <th><input style="width: 100%"></th>
+                    <th><input style="width: 100%"></th>
+                    <th><input style="width: 100%"></th>
                 </tr>
                 <tr>
-                    <th>№<br>п/п</th>
-                    <th>Numer<br>zlecenia</th>
-                    <th>Data</th>
-                    <th>Slot<br>czasowy</th>
-                    <th>Adres</th>
-                    <th>Pierwszy<br>pracownik</th>
-                    <th>Drugi<br>pracownik</th>
-                    <th>Trzeci<br>pracownik</th>
-                    <th>Skuteczność</th>
-                    <th>Potwierdzone<br>dyspozytorem</th>
+                    <th style="width: 30px">№<br>п/п</th>
+                    <th style="width: 180px">Numer<br>zlecenia</th>
+                    <th style="width: 80px">Data</th>
+                    <th style="width: 90px">Slot<br>czasowy</th>
+                    <th style="width: 180px">Adres</th>
+                    <th style="width: 180px">Pierwszy<br>pracownik</th>
+                    <th style="width: 180px">Drugi<br>pracownik</th>
+                    <th style="width: 180px">Trzeci<br>pracownik</th>
+                    <th style="width: 30px"><span class="glyphicon glyphicon-saved"></span></th>
+                    <th style="width: 30px"><span class="glyphicon glyphicon-thumbs-up"></span></th>
                 </tr>
                 {% for installation in installations %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td><a href="{% url 'installation_app:installation_detail' installation.id%}">{{ installation.number }}</a></td>
+                        <td>
+                            {% if user.is_staff %}
+                                <a href="{% url 'installation_app:installation_detail' installation.id%}">{{ installation.number }}</a>
+                            {% else%}
+                                {% if not installation.accepted %}
+                                    <a href="{% url 'installation_app:installation_detail' installation.id%}">{{ installation.number }}</a>
+                                {% else %}
+                                    {{ installation.number }}
+                                {% endif %}
+                            {% endif %}
+                        </td>
                         <td>{{ installation.date }}</td>
                         <td>{{ installation.get_time_slot_display }}</td>
                         <td>{{ installation.address }}</td>
-                        <td>{{ installation.employee_1 }}</td>
-                        <td>{{ installation.employee_2 }}</td>
-                        <td>{{ installation.employee_3 }}</td>
-                        {% if installation.success == '1' %}
-                            <td>Skuteczna</td>
+                        <td>
+                            {% if installation.employee_1 %}
+                                {{ installation.employee_1 }}
                             {% else %}
-                            <td>Nie skuteczna</td>
+                                <span class="glyphicon glyphicon-minus"></span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if installation.employee_2 %}
+                                {{ installation.employee_2 }}
+                            {% else %}
+                                <span class="glyphicon glyphicon-minus"></span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if installation.employee_3 %}
+                                {{ installation.employee_3 }}
+                            {% else %}
+                                <span class="glyphicon glyphicon-minus"></span>
+                            {% endif %}
+                        </td>
+                        {% if installation.success %}
+                            <td><span style="color: green" class="glyphicon glyphicon-ok"></span></td>
+                            {% else %}
+                            <td><span style="color: red" class="glyphicon glyphicon-remove"></span></td>
                         {% endif %}
-                        {% if installation.accepted == '1' %}
-                            <td>Akceptowana</td>
+                        {% if installation.accepted %}
+                            <td><span style="color: green" class="glyphicon glyphicon-ok"></span></td>
                             {% else %}
-                            <td>Nie akceptowana</td>
+                            <td><span style="color: red" class="glyphicon glyphicon-remove"></span></td>
                         {% endif %}
                     </tr>
                 {% endfor %}

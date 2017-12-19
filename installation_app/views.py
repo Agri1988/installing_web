@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.db.models import Q
 import calendar
 import datetime
+from base_app.views import today_date_weekday
 
 # Create your views here.
 def all_installation(request, day=datetime.date.today().day, month=datetime.date.today().month,
@@ -24,9 +25,10 @@ def all_installation(request, day=datetime.date.today().day, month=datetime.date
             .filter(date=datetime.date(year, month, day))
     else:
         installations = Installation.objects.filter(date=datetime.date(year, month, day))
-    context = {'installations':installations, 'days_list':days_list,
-               'today_date':datetime.date.today().strftime('%d.%m.%Y'),
-               'today_weekday':days_name[datetime.date.today().weekday()]}
+    context = {'installations':installations, 'days_list':days_list
+               }
+    context.update(today_date_weekday())
+    print(context)
     return render(request, 'installation_app/all_installation.html', context)
 
 
@@ -50,10 +52,16 @@ def installation_detail(request, installation_id):
         installation_form = get_installation_form(instance=installation, initial=initial_data)
 
     else:
-        installation_form = InstallationFormUser(instance=installation,data=request.POST)
+        installation_form = get_installation_form(instance=installation,data=request.POST)
         if installation_form.is_valid():
             new_installation = installation_form.save()
             installation_id = new_installation.id
+            if 'submit_and_return' in request.POST:
+                installation_date = new_installation.date
+                print(installation_date)
+                return HttpResponseRedirect(reverse('installation_app:all_installation',
+                                                    args=[installation_date.day, installation_date.month,
+                                                          installation_date.year]))
             return HttpResponseRedirect(reverse('installation_app:installation_detail', args=[installation_id]))
     context = {'installation_id':installation_id,'installation_form':installation_form}
     return render(request, 'installation_app/installation_detail.html', context)
