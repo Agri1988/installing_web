@@ -84,7 +84,8 @@
         {% endif %}
     </div>
     <div>
-        Dzisiaj: {{ today_weekday }} {{ today_date }}
+        Dzisiaj: <a href="{% url 'installation_app:all_installation' %}">{{ today_weekday }} {{ today_date }}</a>
+        obecnie masz {{ installation_in_month|length }} instalacje
     </div>
     {% block body %}
 
