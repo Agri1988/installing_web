@@ -9,7 +9,8 @@ def today_date_weekday():
                'today_weekday': days_name[datetime.date.today().weekday()]}
 
 def month_installation_count(month=datetime.date.today().month, year=datetime.date.today().year):
-    return {'installation_in_month':Installation.objects.filter(date__month=month).filter(date__year=year).filter(success=True)}
+    return {'installation_in_month':Installation.objects.filter(date__month=month).filter(date__year=year).
+        filter(success=True).filter(accepted=True)}
 
 
 def index(request):
