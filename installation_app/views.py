@@ -27,7 +27,7 @@ def all_installation(request, day=datetime.date.today().day, month=datetime.date
     day = str(day)
     context = {'installations':installations, 'days_list':days_list, 'view_day':('0'+day if len(day)!=2 else day)}
     context.update(today_date_weekday())
-    context.update(month_installation_count())
+    context.update(month_installation_count(user_id=user_id))
     return render(request, 'installation_app/all_installation.html', context)
 
 
@@ -70,5 +70,5 @@ def installation_detail(request, installation_id):
             return HttpResponseRedirect(reverse('installation_app:installation_detail', args=[installation_id]))
     context = {'installation_id':installation_id,'installation_form':installation_form}
     context.update(today_date_weekday())
-    context.update(month_installation_count())
+    context.update(month_installation_count(user_id=user_id))
     return render(request, 'installation_app/installation_detail.html', context)

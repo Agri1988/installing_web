@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('base_app.urls', namespace='base_app')),
     path('users/', include('users_app.urls', namespace='users_app')),
-    path('installations/', include('installation_app.urls', namespace='installation_app'))
+    path('installations/', include('installation_app.urls', namespace='installation_app')),
+    path('reports/', include('reports_app.urls', namespace='reports_app')),
 
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

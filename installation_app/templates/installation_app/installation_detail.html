@@ -1,9 +1,26 @@
 {% extends 'base_app/base.html' %}
 {% block body %}
-    <form method="post" action="{% url 'installation_app:installation_detail' installation_id%}">
-        {% csrf_token %}
-        {{ installation_form.as_p }}
-        <button name="submit">Zapisać</button>
-        <button name="submit_and_return">Zapisz i wróć</button>
-    </form>
+    <div class="row">
+        <div class="col-lg-6">
+            <form role="form" class="form-inline" method="post" action="{% url 'installation_app:installation_detail' installation_id%}">
+                {% csrf_token %}
+                {% for field in installation_form %}
+                    <div class="form-group">
+                        {{ field.errors }}
+                        {{ field.label_tag }} {{ field }}
+                    </div>
+                {% endfor %}
+                <div class="form-group">
+                    <button name="submit">Zapisać</button>
+                </div>
+                <div class="form-group">
+                    <button name="submit_and_return">Zapisz i wróć</button>
+                </div>
+
+            </form>
+        {% load staticfiles %}
+        <script type="text/javascript" src="{% static 'reports_app/js/../../../base_app/static/js/django_form.js' %}"></script>
+        </div>
+    </div>
+
 {% endblock %}

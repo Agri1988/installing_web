@@ -35,7 +35,8 @@
         </div>
 
         <div class="col-lg-11">
-            <table border="2px" id="table">
+            <div class="table-responsive ">
+            <table  id="table" class="table-bordered">
                 <tr id="search_fields">
                     <th><input style="width:100%"></th>
                     <th><input style="width: 100%"></th>
@@ -112,6 +113,7 @@
                 {% endfor %}
 
             </table>
+            </div>
             <a href="{% url 'installation_app:installation_detail' 0%}"> Dodaj instalację</a>
         </div>
 

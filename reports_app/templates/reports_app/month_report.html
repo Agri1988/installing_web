@@ -1,0 +1,53 @@
+{% extends 'base_app/base.html' %}
+{% block body %}
+    {% if report %}
+        <div class="row">
+            <div class="col-lg-12">
+            Raport za {{ month }} {{ year }} roku.
+                <table border="1px">
+                    {% for element in report %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ element.number }}</td>
+                            <td>{{ element.address }}</td>
+                            <td>{{ element.date }}</td>
+                            {% if user.is_staff and not employee%}
+                                {% if element.employee_1 %}
+                                    <td>{{ element.employee_1 }}</td>
+                                {% else %}
+                                    <td><span class="glyphicon glyphicon-minus"></span></td>
+                                {% endif %}
+                                {% if element.employee_2 %}
+                                    <td>{{ element.employee_2 }}</td>
+                                {% else %}
+                                    <td><span class="glyphicon glyphicon-minus"></span></td>
+                                {% endif %}
+                                {% if element.employee_3%}
+                                    <td>{{ element.employee_3 }}</td>
+                                {% else %}
+                                    <td><span class="glyphicon glyphicon-minus"></span></td>
+                                {% endif %}
+                            {% elif not user.is_staff%}
+                                {% if element.employee_1_id == user.pk %}
+                                    <td>{{ element.employee_1 }}</td>
+                                {% elif element.employee_2_id == user.pk %}
+                                    <td>{{ element.employee_2 }}</td>
+                                {% elif element.employee_3_id == user.pk %}
+                                    <td>{{ element.employee_3 }}</td>
+                                {% endif %}
+                            {% elif employee %}
+                                {% if element.employee_1_id == employee %}
+                                    <td>{{ element.employee_1 }}</td>
+                                {% elif element.employee_2_id == employee %}
+                                    <td>{{ element.employee_2 }}</td>
+                                {% elif element.employee_3_id == employee %}
+                                    <td>{{ element.employee_3 }}</td>
+                                {% endif %}
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

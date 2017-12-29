@@ -7,6 +7,9 @@ class InstallationFormUser(forms.ModelForm):
         model = Installation
         exclude = ['accepted']
 
+    class Media:
+        js = ['django_form.js']
+
     def __init__(self, *args, **kwargs):
         forms.ModelForm.__init__(self, *args, **kwargs)
         self.fields['employee_1'].queryset = User.objects.filter(is_staff=False)
@@ -18,6 +21,9 @@ class InstallationFormAdmin(forms.ModelForm):
     class Meta:
         model = Installation
         fields = '__all__'
+
+    class Media:
+        js = ['django_form.js']
 
     def __init__(self, *args, **kwargs):
         forms.ModelForm.__init__(self, *args, **kwargs)
