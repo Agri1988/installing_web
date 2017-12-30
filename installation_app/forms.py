@@ -7,8 +7,6 @@ class InstallationFormUser(forms.ModelForm):
         model = Installation
         exclude = ['accepted']
 
-    class Media:
-        js = ['django_form.js']
 
     def __init__(self, *args, **kwargs):
         forms.ModelForm.__init__(self, *args, **kwargs)
@@ -22,8 +20,6 @@ class InstallationFormAdmin(forms.ModelForm):
         model = Installation
         fields = '__all__'
 
-    class Media:
-        js = ['django_form.js']
 
     def __init__(self, *args, **kwargs):
         forms.ModelForm.__init__(self, *args, **kwargs)

@@ -1,8 +1,10 @@
 {% extends 'base_app/base.html' %}
+{% load staticfiles %}
 {% block body %}
+        <script type="text/javascript" src="{% static 'base_app/js/django_form.js' %}"></script>
     <div class="row">
         <div class="col-lg-6">
-            <form role="form" class="form-inline" method="post" action="{% url 'installation_app:installation_detail' installation_id%}">
+            <form method="post" action="{% url 'installation_app:installation_detail' installation_id%}">
                 {% csrf_token %}
                 {% for field in installation_form %}
                     <div class="form-group">
@@ -18,8 +20,7 @@
                 </div>
 
             </form>
-        {% load staticfiles %}
-        <script type="text/javascript" src="{% static 'reports_app/js/../../../base_app/static/js/django_form.js' %}"></script>
+
         </div>
     </div>
 
