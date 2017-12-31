@@ -31,6 +31,7 @@ def all_installation(request, day=datetime.date.today().day, month=datetime.date
     return render(request, 'installation_app/all_installation.html', context)
 
 
+@login_required(login_url='users_app:login')
 def installation_detail(request, installation_id):
     user_id = request.user.pk
     user = User.objects.get(id=user_id)

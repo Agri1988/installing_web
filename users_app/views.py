@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .forms import MyUserChangeForm
 from base_app.views import today_date_weekday,month_installation_count
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def logout_view(request):
@@ -12,6 +13,7 @@ def logout_view(request):
     return HttpResponseRedirect(reverse('users_app:login'))
 
 
+@login_required(login_url='users_app:login')
 def user_data(request):
     user_id = request.user.pk
     user = User.objects.get(id=user_id)

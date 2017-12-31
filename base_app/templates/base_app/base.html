@@ -41,9 +41,10 @@
                 {% if user.is_staff %}
                     <li><a href="{% url 'reports_app:list_month_report' %}">Miesieczny raport wszyscy</a></li>
                     <li><a href="{% url 'reports_app:list_month_report' 1 %}">Miesieczny raport pracownik</a></li>
+                    <li><a href="{% url 'reports_app:create_working_time' %}">Ewidencja czasu pracy</a></li>
                     {% else %}
                     <li><a href="{% url 'reports_app:list_month_report' %}">Miesieczny raport</a></li>
-                    <li><a href="#">Ewidencja czasu pracy</a></li>
+                    <li><a href="{% url 'reports_app:create_working_time' %}">Ewidencja czasu pracy</a></li>
               {% endif %}
 {#            <li class="divider"></li>#}
 {#            <li><a href="#">Отдельная ссылка</a></li>#}
@@ -90,10 +91,13 @@
         {% endif %}
     </div>
     <div>
-        Dzisiaj: <a href="{% url 'installation_app:all_installation' %}">{{ today_weekday }} {{ today_date }}</a>
+        {% if user.is_authentificated %}
+            Dzisiaj: <a href="{% url 'reports_app:working_time' month year  user.pk%}" title="Ewidencja czasu pracy za biezacy miesiac">{{ today_weekday }} {{ today_date }}</a>
         {% if not user.is_staff %}
             obecnie masz {{ installation_in_month|length }} instalacje
         {% endif %}
+        {% endif %}
+
 
     </div>
     {% block body %}

@@ -6,18 +6,9 @@
         <div class="col-lg-6">
             <form method="post" action="{% url 'installation_app:installation_detail' installation_id%}">
                 {% csrf_token %}
-                {% for field in installation_form %}
-                    <div class="form-group">
-                        {{ field.errors }}
-                        {{ field.label_tag }} {{ field }}
-                    </div>
-                {% endfor %}
-                <div class="form-group">
-                    <button name="submit">Zapisać</button>
-                </div>
-                <div class="form-group">
-                    <button name="submit_and_return">Zapisz i wróć</button>
-                </div>
+                {{ installation_form.as_p }}
+                    <p><button name="submit">Zapisać</button></p>
+                    <p><button name="submit_and_return">Zapisz i wróć</button></p>
 
             </form>
 

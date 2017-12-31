@@ -29,3 +29,4 @@ class Installation(models.Model):
     class Meta:
         verbose_name = 'Instalacja'
         verbose_name_plural = 'Instalacje'
+        ordering = ['date', 'time_slot', 'address']
