@@ -1,39 +1,36 @@
 {% extends 'base_app/base.html' %}
 {% load staticfiles %}
 {% block body %}
+    <script src="{% static "base_app/js/django_form.js" %}"></script>
     <script src="{% static "installation_app/js/all_installation.js" %}"></script>
     <script type="text/javascript">var all_installation_link = "{% url 'installation_app:all_installation' %}"</script>
-    <div style="overflow: hidden">
-        <div style="width: 1000%">
-            <div>
-                <form action="{% url 'installation_app:all_installation' %}" id="search_form">
-                    <input type="date" id="search_date">
-                    <input type="button" value="Wyszukuj" id="search_date_button">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <form  class="form-inline" action="{% url 'installation_app:all_installation' %}" id="search_form">
+                    <p><input type="date" id="search_date"></p>
+                    <p><input type="button" value="Wyszukuj" id="search_date_button"></p>
                 </form>
             </div>
         </div>
     </div>
 
-
-    <div class="row">
-
-        <div class="col-lg-1">
-            <div>
-                {% for day in days_list %}
-                    {% if view_day ==  day|make_list|slice:':-8'|join:''%}
-                        <a style="color: red"
-                           href="{% url 'installation_app:all_installation'  day|make_list|slice:':-8'|join:'' day|make_list|slice:'-7:-5'|join:'' day|make_list|slice:'-4:'|join:'' %}">
-                        {{ day }}</a>
-                    {% else %}
-                        <a href="{% url 'installation_app:all_installation'  day|make_list|slice:':-8'|join:'' day|make_list|slice:'-7:-5'|join:'' day|make_list|slice:'-4:'|join:'' %}">
-                        {{ day }}</a>
-                    {% endif %}
-
-                {% endfor %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-1 ">
+                <div>
+                    {% for day in days_list %}
+                        {% if view_day ==  day|make_list|slice:':-8'|join:''%}
+                            <a style="color: red"
+                               href="{% url 'installation_app:all_installation'  day|make_list|slice:':-8'|join:'' day|make_list|slice:'-7:-5'|join:'' day|make_list|slice:'-4:'|join:'' %}">
+                            {{ day }}</a>
+                        {% else %}
+                            <a href="{% url 'installation_app:all_installation'  day|make_list|slice:':-8'|join:'' day|make_list|slice:'-7:-5'|join:'' day|make_list|slice:'-4:'|join:'' %}">
+                            {{ day }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
-
-        </div>
-
         <div class="col-lg-11">
             <div class="table-responsive ">
             <table  id="table" class="table-bordered">
@@ -116,7 +113,7 @@
             </div>
             <a href="{% url 'installation_app:installation_detail' 0%}"> Dodaj instalację</a>
         </div>
-
+    </div>
     </div>
 
 

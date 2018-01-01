@@ -3,35 +3,37 @@
 {% block body %}
     <script src="{% static 'base_app/js/django_form.js' %}"></script>
     <script src="{% static 'reports_app/js/timelist_add.js' %}"></script>
-    <div class="row" style="margin-top: 15px">
-        <div class="col-lg-4">
-        <form   method="post" action="{% url 'reports_app:working_time' %}">
-            {% csrf_token %}
-        {% if not user.is_staff %}
-            <input id="user_id" value="{{ user.pk }}" hidden>
-        {% endif %}
-        <p>
-            <label itemid="month">Miesiac</label>
-            <input id="month" type="number" class="form-control">
-        </p>
-        <p>
-            <label itemid="year">Rok</label>
-            <input id="year" type="number" class="form-control">
-        </p>
-        <p>
-            {% if user.is_staff and employees%}
-                <label itemid="employee">Pracownik</label>
-                <select id="employee" class="form-control">
-                    {% for employee in employees %}
-                        <option value="{{ employee.id }}">{{employee }}</option>
-                    {% endfor %}
-                </select>
-            {% endif %}
-        </p>
-        <p>
-            <button id="btn_accept" class="form-control">Utworzyc ewidencje czasu pracy</button>
-        </p>
-        </form>
+    <div class="container">
+        <div class="row" style="margin-top: 15px">
+            <div class="col-lg-4">
+                <form   method="post" action="{% url 'reports_app:working_time' %}">
+                    {% csrf_token %}
+                    {% if not user.is_staff %}
+                        <input id="user_id" value="{{ user.pk }}" hidden>
+                    {% endif %}
+                    <p>
+                        <label itemid="month">Miesiac</label>
+                        <input id="month" type="number" class="form-control">
+                    </p>
+                    <p>
+                        <label itemid="year">Rok</label>
+                        <input id="year" type="number" class="form-control">
+                    </p>
+                    <p>
+                        {% if user.is_staff and employees%}
+                            <label itemid="employee">Pracownik</label>
+                            <select id="employee" class="form-control">
+                                {% for employee in employees %}
+                                    <option value="{{ employee.id }}">{{employee }}</option>
+                                {% endfor %}
+                            </select>
+                        {% endif %}
+                    </p>
+                    <p>
+                        <button id="btn_accept" class="form-control">Utworzyc ewidencje czasu pracy</button>
+                    </p>
+                </form>
+            </div>
         </div>
     </div>
 {% endblock %}

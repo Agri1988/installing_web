@@ -1,5 +1,6 @@
 $(document).ready(function () {
     var form = document.querySelector('form');
+    console.log(form)
     form.setAttribute('role',"form");
     //form.setAttribute('class',"form-inline")
     var element_in_form = Array.from(form.getElementsByTagName('p'));

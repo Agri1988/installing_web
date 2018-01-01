@@ -83,23 +83,26 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-    <div>
-        {% if user.is_authenticated %}
-            Witaj, {{ user }}. <a href="{% url 'users_app:logout' %}">LogOut</a>
-        {% else %}
-            <a href="{% url 'users_app:login'%}"> LogIn</a>
-        {% endif %}
-    </div>
-    <div>
-        {% if user.is_authentificated %}
-            Dzisiaj: <a href="{% url 'reports_app:working_time' month year  user.pk%}" title="Ewidencja czasu pracy za biezacy miesiac">{{ today_weekday }} {{ today_date }}</a>
-        {% if not user.is_staff %}
-            obecnie masz {{ installation_in_month|length }} instalacje
-        {% endif %}
-        {% endif %}
+    {% block first_block %}
+        <div class="container">
+            <div>
+                {% if user.is_authenticated %}
+                    Witaj, {{ user }}. <a href="{% url 'users_app:logout' %}">LogOut</a>
+                {% else %}
+                    <a href="{% url 'users_app:login'%}"> LogIn</a>
+                {% endif %}
+            </div>
+            <div>
+                {% if user.is_authenticated %}
+                    Dzisiaj: <a href="{% url 'reports_app:working_time' month year  user.pk%}" title="Ewidencja czasu pracy za biezacy miesiac">{{ today_weekday }} {{ today_date }}</a>
+                {% if not user.is_staff %}
+                    obecnie masz {{ installation_in_month|length }} instalacje
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    {% endblock %}
 
-
-    </div>
     {% block body %}
 
     {% endblock body %}

@@ -32,8 +32,10 @@ $(document).ready(function () {
     var url = $('#search_form').attr('action');
     search_date_button.on('click', function (event) {
         event.preventDefault();
-        console.log(url+search_date.val().substr(8,2)+'/'+search_date.val().substr(5,2)+'/'+search_date.val().substr(0,4));
-        document.location.href = url+search_date.val().substr(8,2)+'/'+search_date.val().substr(5,2)+'/'+search_date.val().substr(0,4)
+        if (search_date.val()!=='') {
+            console.log(url + search_date.val().substr(8, 2) + '/' + search_date.val().substr(5, 2) + '/' + search_date.val().substr(0, 4));
+            document.location.href = url+search_date.val().substr(8,2)+'/'+search_date.val().substr(5,2)+'/'+search_date.val().substr(0,4)
+        }
         // $.ajax({
         //         url:url+search_date.val().substr(8,2)+'/'+search_date.val().substr(5,2)+'/'+search_date.val().substr(0,4),
         //         type:'POST',
