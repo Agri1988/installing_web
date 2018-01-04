@@ -10,9 +10,9 @@ class InstallationFormUser(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         forms.ModelForm.__init__(self, *args, **kwargs)
-        self.fields['employee_1'].queryset = User.objects.filter(is_staff=False)
-        self.fields['employee_2'].queryset = User.objects.filter(is_staff=False)
-        self.fields['employee_3'].queryset = User.objects.filter(is_staff=False)
+        self.fields['employee_1'].queryset = User.objects.filter(is_staff=False, is_active=True)
+        self.fields['employee_2'].queryset = User.objects.filter(is_staff=False, is_active=True)
+        self.fields['employee_3'].queryset = User.objects.filter(is_staff=False, is_active=True)
 
 
 class InstallationFormAdmin(forms.ModelForm):
@@ -23,6 +23,6 @@ class InstallationFormAdmin(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         forms.ModelForm.__init__(self, *args, **kwargs)
-        self.fields['employee_1'].queryset = User.objects.filter(is_staff=False)
-        self.fields['employee_2'].queryset = User.objects.filter(is_staff=False)
-        self.fields['employee_3'].queryset = User.objects.filter(is_staff=False)
+        self.fields['employee_1'].queryset = User.objects.filter(is_staff=False, is_active=True)
+        self.fields['employee_2'].queryset = User.objects.filter(is_staff=False, is_active=True)
+        self.fields['employee_3'].queryset = User.objects.filter(is_staff=False, is_active=True)

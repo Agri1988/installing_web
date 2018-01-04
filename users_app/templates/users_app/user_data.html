@@ -7,7 +7,20 @@
             <div class="col-lg-4 col-lg-offset-4">
                 <form action="{% url 'users_app:user_data' %}" method="post">
                     {% csrf_token %}
-                    {{ user_change_form.as_p }}
+                    {% if user.is_staff %}
+                        <p><label>ID</label>{{ user_change_form.username }}</p>
+                        <p><label>Imie</label>{{ user_change_form.first_name }}</p>
+                        <p><label>Nazwisko</label>{{ user_change_form.last_name }}</p>
+                        <p><label>Email</label>{{ user_change_form.email }}</p>
+                        <p><label>Jest pracownikiem</label>{{ user_change_form.is_active }}</p>
+                    {% else %}
+                        <p><label>ID</label>{{ user_change_form.username }}</p>
+                        <p><label>Imie</label>{{ user_change_form.first_name }}</p>
+                        <p><label>Nazwisko</label>{{ user_change_form.last_name }}</p>
+                        <p><label>Email</label>{{ user_change_form.email }}</p>
+{#                        <p><label>Jest pracownikiem</label>{{ user_change_form.is_active }}</p>#}
+                    {% endif %}
+
                     <p><button>Zapisać</button></p>
                 </form>
 
