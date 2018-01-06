@@ -16,28 +16,35 @@ def logout_view(request):
 
 @login_required(login_url='users_app:login')
 def user_data(request, user_id=None):
-    if request.user.is_staff and user_id:
+    if request.user.is_staff and user_id!=None:
         user_id = user_id
+        other_user_change = user_id
+        print (request.user.is_staff, user_id)
+
     else:
         user_id = request.user.pk
+        other_user_change = False
     user = User.objects.get(id=user_id)
     if request.method != 'POST':
         user_change_form = MyUserChangeForm(instance=user)
     else:
-        print(request.POST)
+        #print(request.POST)
         user_change_form = MyUserChangeForm(instance=user, data=request.POST)
         if user_change_form.is_valid():
+            print ('is_valid')
             try:
-                if request.POST['is_active']:
+                print ('is_active')
+                if 'is_active' in request.POST:
                     user_change_form.save()
                 else:
                     user_change_form.save()
             except:
+                print ('except')
                 entry = user_change_form.save(commit=False)
                 entry.is_active = True
                 user_change_form.save()
-
-    context = {'user_change_form':user_change_form}
+        else: print (request.POST)
+    context = {'user_change_form':user_change_form, 'other_user_change':other_user_change}
     context.update(today_date_weekday())
     context.update(month_installation_count())
     return render(request, 'users_app/user_data.html', context)
