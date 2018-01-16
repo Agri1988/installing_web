@@ -6,8 +6,8 @@ from installation_app.models import Installation
 
 # Create your views here.
 def month_name(month_number = None):
-    dict_month_name = {1:'Styczen', 2:'Luty', 3:'Marzec', 4:'Kwiecin', 5:'Maj', 6:'Czerwiec', 7:'Lipiec', 8:'Sierpien',
-                       9:'wrzesien', 10:'Pazdziernik', 11:'Listopad', 12:'Grudzien'}
+    dict_month_name = {1:'Styczeń', 2:'Luty', 3:'Marzec', 4:'Kwiecień', 5:'Maj', 6:'Czerwiec', 7:'Lipiec', 8:'Sierpień',
+                       9:'Wrzesień', 10:'Październik', 11:'Listopad', 12:'Grudzień'}
     if month_number:
         return dict_month_name[int(month_number)]
     else:
@@ -15,7 +15,7 @@ def month_name(month_number = None):
 
 
 def today_date_weekday():
-    days_name = {6: 'Niedziela', 0: 'Poniedziałek', 1: 'Wtorek', 2: 'środa', 3: 'Czwartek', 4: 'Piątek', 5: 'Sobota'}
+    days_name = {6: 'Niedziela', 0: 'Poniedziałek', 1: 'Wtorek', 2: 'Środa', 3: 'Czwartek', 4: 'Piątek', 5: 'Sobota'}
     return {'today_date': datetime.date.today().strftime('%d.%m.%Y'),
                'today_weekday': days_name[datetime.date.today().weekday()],
             'month':datetime.date.today().month, 'year':datetime.date.today().year}

@@ -10,7 +10,12 @@
                     {% csrf_token %}
                     <p>
                         <label itemid="month">Miesiac</label>
-                        <input id="month" type="number" class="form-control">
+                        <select id="month" class="form-control">
+                            {% for number, name in dict_month_name.items %}
+                                <option value="{{ number }}">{{ name }}</option>
+                            {% endfor %}
+
+                        </select>
                     </p>
                     <p>
                         <label itemid="year">Rok</label>

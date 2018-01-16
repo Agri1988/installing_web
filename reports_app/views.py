@@ -52,6 +52,8 @@ def list_month_report(request, employee=None):
     context = {'month_name':month_name(), 'employees':employees}
     context.update(today_date_weekday())
     context.update(month_installation_count(user_id=user_id))
+    context.update(month_name())
+    context.update({'dict_month_name': month_name()})
     return render(request, 'reports_app/list_month_report.html', context)
 
 
@@ -94,4 +96,5 @@ def create_working_time(request):
     context = {'employees':employees}
     context.update(today_date_weekday())
     context.update(month_installation_count(user_id=employee))
+    context.update({'dict_month_name': month_name()})
     return render(request, 'reports_app/create_working_time.html', context)
