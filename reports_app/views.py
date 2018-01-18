@@ -21,7 +21,7 @@ def month_report(request, month, year, employee = None):
         print('is_staff')
         try:
             if not employee:
-                report = Installation.objects.filter(date__month=month, date__year=year).order_by('date').order_by('address')
+                report = Installation.objects.filter(date__month=month, date__year=year)
             else:
                 report = Installation.objects.filter(date__month=month, date__year=year).filter(Q(employee_1=employee) |
                                                                                                 Q(employee_2=employee) |
@@ -81,9 +81,7 @@ def working_time(request, month=datetime.date.today().month, year=datetime.date.
 
     for time in list_working_time:
         time_result += time
-    context = {'day_count':day_count, 'installation_list':installation_list_to_context, 'time_result':time_result,
-               'list_working_time':list_working_time, 'zip_lists':zip_lists, 'time_result':time_result,
-               'inst_result':inst_result}
+    context = {'day_count':day_count, 'zip_lists':zip_lists,'inst_result':inst_result,'time_result':time_result}
     context.update(today_date_weekday())
     context.update(month_installation_count(user_id=employee))
     return render(request, 'reports_app/working_time.html', context)
