@@ -12,32 +12,36 @@ from django.contrib.auth.models import User
 from base_app.views import month_name, today_date_weekday, month_installation_count
 
 
+def get_employee_report(employee, month, year):
+    return Installation.objects.filter(date__month=month, date__year=year, accepted=True, success=True). \
+        filter(Q(employee_1=employee) |
+               Q(employee_2=employee) |
+               Q(employee_3=employee))
 
 # Create your views here.
 @login_required(login_url='users_app:login')
 def month_report(request, month, year, employee = None):
     user_id = request.user.pk
+
     if request.user.is_staff:
         print('is_staff')
         try:
             if not employee:
-                report = Installation.objects.filter(date__month=month, date__year=year)
+                report = Installation.objects.filter(date__month=month, date__year=year, accepted=True)
             else:
-                report = Installation.objects.filter(date__month=month, date__year=year).filter(Q(employee_1=employee) |
-                                                                                                Q(employee_2=employee) |
-                                                                                                Q(employee_3=employee))
+                report = get_employee_report(employee, month, year)
         except:
             return HttpResponseRedirect (reverse ('reports_app:list_month_report'))
     else:
         print('user')
         try:
-            report = Installation.objects.filter(date__month=month, date__year=year).filter(Q(employee_1=user_id)|
-                                                                                            Q(employee_2=user_id)|
-                                                                                            Q(employee_3=user_id))
+            report = get_employee_report(employee, month, year)
         except:
             return HttpResponseRedirect (reverse ('reports_app:list_month_report'))
-    context = {'report':report, 'month':month_name(month), 'year':year, 'employee':employee}
+    context = {'report':report, 'month':month, 'year':year, 'employee':employee}
+    print(type(month))
     context.update(today_date_weekday())
+    context.update({'dict_month_name': month_name(month)})
     context.update(month_installation_count(user_id=user_id))
     return render(request, 'reports_app/month_report.html', context)
 
@@ -60,10 +64,7 @@ def list_month_report(request, employee=None):
 @login_required(login_url='users_app:login')
 def working_time(request, month=datetime.date.today().month, year=datetime.date.today().year, employee=None):
     day_count = calendar.monthrange(year, month)[1]
-    installation_list = Installation.objects.filter(date__month=month, date__year=year, success=True).\
-        filter( Q(employee_1=employee)|
-                Q(employee_2=employee)|
-                Q(employee_3=employee))
+    installation_list = get_employee_report(employee, month, year)
     installation_list_to_context = []
     list_working_time = []
     for i in range(1, day_count+1):
@@ -81,8 +82,11 @@ def working_time(request, month=datetime.date.today().month, year=datetime.date.
 
     for time in list_working_time:
         time_result += time
-    context = {'day_count':day_count, 'zip_lists':zip_lists,'inst_result':inst_result,'time_result':time_result}
+
+    context = {'day_count':day_count, 'zip_lists':zip_lists,'inst_result':inst_result,'time_result':time_result,
+               'month':int(month), 'year':year, 'employee':User.objects.get(id=employee)}
     context.update(today_date_weekday())
+    context.update({'dict_month_name': month_name()})
     context.update(month_installation_count(user_id=employee))
     return render(request, 'reports_app/working_time.html', context)
 

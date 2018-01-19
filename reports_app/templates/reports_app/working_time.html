@@ -3,6 +3,16 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-4">
+                <a href="{% url 'installation_app:all_installation' %}"><h4 style="text-align: center;">Eloran</h4></a>
+                <h5 style="text-align: center;">Ewidencję czasu pracy {{ employee }} za
+                    {% for key, val in dict_month_name.items %}
+                       {% ifequal key month %}
+                           {{ val }}
+                        {% endifequal %}
+                    {% endfor %}
+                {{ year }} roku.
+
+                </h5>
                 <div class="table-responsive">
                     <table id="table" class="table table-bordered"  width="100%" cellpadding="5">
                         {% for day_installations, workingtime in zip_lists %}
@@ -32,6 +42,8 @@
                             </tr>
                     </table>
                 </div>
+                <h5 style="text-align: right;">{{ employee }} _______________________</h5>
+                <h6 style="text-align: right;">(czytelny podpis)</h6>
             </div>
         </div>
     </div>
