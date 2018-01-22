@@ -10,7 +10,7 @@
                         {% for element in report %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
-                                <td>{{ element.number }}</td>
+                                <td><a href="{% url 'installation_app:installation_detail' element.pk%}">{{ element.number }}</a> </td>
                                 <td>{{ element.address }}</td>
                                 <td>{{ element.date }}</td>
                                 {% if user.is_staff and not employee%}

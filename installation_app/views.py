@@ -25,7 +25,8 @@ def all_installation(request, day=datetime.date.today().day, month=datetime.date
     else:
         installations = Installation.objects.filter(date=datetime.date(year, month, day))
     day = str(day)
-    context = {'installations':installations, 'days_list':days_list, 'view_day':('0'+day if len(day)!=2 else day)}
+    context = {'installations':installations, 'days_list':days_list, 'view_day':('0'+day if len(day)!=2 else day),
+               'month':month, 'year':year}
     context.update(today_date_weekday())
     context.update(month_installation_count(user_id=user_id))
     return render(request, 'installation_app/all_installation.html', context)
@@ -72,4 +73,14 @@ def installation_detail(request, installation_id):
     context = {'installation_id':installation_id,'installation_form':installation_form}
     context.update(today_date_weekday())
     context.update(month_installation_count(user_id=user_id))
+    context.update()
     return render(request, 'installation_app/installation_detail.html', context)
+
+
+@login_required(login_url='users_app:login')
+def delete_installation(request, installation_id, day, month, year):
+    print(installation_id)
+    if request.user.is_staff:
+        installation = Installation.objects.get(id=installation_id)
+        installation.delete()
+    return HttpResponseRedirect(reverse('installation_app:all_installation',args=[day, month,year]))
