@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 
 class Installation(models.Model):
+    with_contract = models.BooleanField(verbose_name='Umowa', default=False)
     number = models.CharField(verbose_name='Numer zlecenia', max_length=22, blank=False, null=False)
     date = models.DateField(verbose_name='Data instalacji')
     time_slot_choices = [('0', '08.00-11.00'), ('1', '11.00-14.00'), ('2', '14.00-17.00'), ('3', '17.00-20.00')]
