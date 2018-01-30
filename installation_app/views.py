@@ -33,13 +33,14 @@ def all_installation(request, day=datetime.date.today().day, month=datetime.date
 
 
 @login_required(login_url='users_app:login')
-def installation_detail(request, installation_id):
+def installation_detail(request, installation_id, day=datetime.date.today().day, month=datetime.date.today().month,
+                     year = datetime.date.today().year):
     user_id = request.user.pk
     user = User.objects.get(id=user_id)
-
+    print(datetime.date(year,month,day).strftime('%d.%m.%Y'))
     if installation_id == 0:
         installation = None
-        initial_data = {'employee_1':user_id, 'date':(datetime.date.today().strftime('%d.%m.%Y'))}
+        initial_data = {'employee_1':user_id, 'date':(datetime.date(year,month,day).strftime('%d.%m.%Y'))}
     else:
         installation = Installation.objects.get(id=installation_id)
         initial_data = None

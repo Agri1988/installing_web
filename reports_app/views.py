@@ -35,7 +35,7 @@ def month_report(request, month, year, employee = None):
     else:
         print('user')
         try:
-            report = get_employee_report(employee, month, year)
+            report = get_employee_report(user_id, month, year)
         except:
             return HttpResponseRedirect (reverse ('reports_app:list_month_report'))
     context = {'report':report, 'month':month, 'year':year, 'employee':employee}
