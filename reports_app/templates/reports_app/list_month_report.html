@@ -9,7 +9,7 @@
                 <form   method="post" action="{% url 'reports_app:list_month_report' %}">
                     {% csrf_token %}
                     <p>
-                        <label itemid="month">Miesiac</label>
+                        <label itemid="month">Miesiąc</label>
                         <select id="month" class="form-control">
                             {% for number, name in dict_month_name.items %}
                                 <option value="{{ number }}">{{ name }}</option>
@@ -32,7 +32,7 @@
                         {% endif %}
                     </p>
                     <p>
-                        <button id="btn_accept" class="form-control">Utworzyc raport za biezacy miesiac</button>
+                        <button id="btn_accept" class="form-control">Stworzyc raport za biezący miesiąc</button>
                     </p>
                 </form>
             </div>

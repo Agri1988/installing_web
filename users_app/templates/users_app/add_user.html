@@ -9,9 +9,9 @@
                     {% csrf_token %}
                     {{ create_user_form.non_field_errors }}
                     <p><label>ID</label> {{ create_user_form.errors }}{{ create_user_form.username}}</p>
-                    <p><label>Haslo</label> {{ create_user_form.password1.errors }}{{ create_user_form.password1}}</p>
-                    <p><label>Powtorz haslo</label> {{ create_user_form.password2.errors }} {{ create_user_form.password2}}</p>
-                    <p><label>Imie</label> {{ create_user_form.first_name.errors }}{{ create_user_form.first_name}}</p>
+                    <p><label>Hasło</label> {{ create_user_form.password1.errors }}{{ create_user_form.password1}}</p>
+                    <p><label>Powtórz hasło</label> {{ create_user_form.password2.errors }} {{ create_user_form.password2}}</p>
+                    <p><label>Imię</label> {{ create_user_form.first_name.errors }}{{ create_user_form.first_name}}</p>
                     <p><label>Nazwisko</label> {{ create_user_form.last_name.errors }} {{ create_user_form.last_name}}</p>
                     <p><button>Zapisać</button></p>
                 </form>
