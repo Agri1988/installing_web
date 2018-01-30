@@ -38,7 +38,7 @@ def month_report(request, month, year, employee = None):
             report = get_employee_report(user_id, month, year)
         except:
             return HttpResponseRedirect (reverse ('reports_app:list_month_report'))
-    context = {'report':report, 'month':month, 'year':year, 'employee':employee}
+    context = {'report':report, 'month':month, 'year':year, 'employee':employee, 'len_contract':len(report.filter(with_contract=True))}
     print(type(month))
     context.update(today_date_weekday())
     context.update({'dict_month_name': month_name(month)})

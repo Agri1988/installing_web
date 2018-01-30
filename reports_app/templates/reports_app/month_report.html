@@ -7,9 +7,29 @@
                 Raport za {{ dict_month_name }} {{ year }} roku.
                 <div class="table-responsive ">
                     <table id="table" class="table table-bordered">
+                            <tr>
+                                <th style="width: 30px">№<br>prz</th>
+                                <th style="width: 30px"><span class="glyphicon glyphicon-list"></span></th>
+                                <th style="width: 180px">Numer<br>zlecenia</th>
+                                <th style="width: 80px">Data</th>
+                                <th style="width: 180px">Adres</th>
+                                {% if user.is_staff and not employee%}
+                                    <th style="width: 180px">Pierwszy<br>pracownik</th>
+                                    <th style="width: 180px">Drugi<br>pracownik</th>
+                                    <th style="width: 180px">Trzeci<br>pracownik</th>
+                                {% elif not user.is_staff or employee %}
+                                    <th style="width: 180px">Pierwszy<br>pracownik</th>
+                                {% endif %}
+
+                            </tr>
                         {% for element in report %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
+                                {% if element.with_contract %}
+                                    <td><span style="color: green" class="glyphicon glyphicon-plus"></span></td>
+                                {% else %}
+                                    <td><span style="color: red" class="glyphicon glyphicon-minus"></span></td>
+                                {% endif %}
                                 <td><a href="{% url 'installation_app:installation_detail' element.pk%}">{{ element.number }}</a> </td>
                                 <td>{{ element.address }}</td>
                                 <td>{{ element.date }}</td>
@@ -48,6 +68,22 @@
                                 {% endif %}
                             </tr>
                         {% endfor %}
+                        {% ifnotequal  len_contract  0 %}
+                        <tr>
+                            <td></td>
+                            <td>{{ len_contract }}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            {% if user.is_staff and not employee%}
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            {% elif not user.is_staff or employee %}
+                                <td></td>
+                            {% endif %}
+                        {% endifnotequal %}
+                        </tr>
                     </table>
                 </div>
                 </div>
