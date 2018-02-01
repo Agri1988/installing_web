@@ -33,7 +33,7 @@
             </div>
         <div class="col-lg-11">
             {% include 'installation_app/installations_table.html' %}
-            <a href="{% url 'installation_app:add_installation' 0 view_day month year%}"> Dodaj instalację</a>
+            <a href="{% url 'installation_app:add_installation' 0 view_day days_list.0|make_list|slice:'-7:-5'|join:'' year%}"> Dodaj instalację</a>
         </div>
     </div>
     </div>

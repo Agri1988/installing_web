@@ -14,6 +14,7 @@ from base_app.views import today_date_weekday,month_installation_count
 @login_required(login_url='users_app:login')
 def all_installation(request, day=datetime.date.today().day, month=datetime.date.today().month,
                      year = datetime.date.today().year):
+
     day_in_month = calendar.mdays[month]
     days_list = [datetime.date(year, month, tmp_day).strftime('%d.%m.%Y') for tmp_day in range(1, day_in_month+1)]
     user_id = request.user.pk
@@ -29,6 +30,7 @@ def all_installation(request, day=datetime.date.today().day, month=datetime.date
                'month':month, 'year':year}
     context.update(today_date_weekday())
     context.update(month_installation_count(user_id=user_id))
+    print(day, month, year)
     return render(request, 'installation_app/all_installation.html', context)
 
 
