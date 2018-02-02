@@ -1,12 +1,11 @@
 {% extends 'base_app/base.html' %}
 {% load staticfiles %}
 {% block body %}
-    <script src="{% static 'base_app/js/django_form.js' %}"></script>
     <script src="{% static 'reports_app/js/timelist_add.js' %}"></script>
     <div class="container">
         <div class="row" style="margin-top: 15px">
             <div class="col-lg-4">
-                <form   method="post" action="{% url 'reports_app:working_time' %}">
+                <form id="create_workingtime_report_form"  method="post" action="{% url 'reports_app:working_time' %}">
                     {% csrf_token %}
                     {% if not user.is_staff %}
                         <input id="user_id" value="{{ user.pk }}" hidden>
@@ -38,6 +37,8 @@
                         <button id="btn_accept" class="form-control">Utwórz ewidencje czasu pracy</button>
                     </p>
                 </form>
+                    <script type="text/javascript" src="{% static 'base_app/js/django_form.js' %}"></script>
+                    <script type="text/javascript"> bootstrap_form('#create_workingtime_report_form')</script>
             </div>
         </div>
     </div>

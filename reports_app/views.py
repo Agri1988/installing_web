@@ -22,12 +22,12 @@ def get_employee_report(employee, month, year):
 @login_required(login_url='users_app:login')
 def month_report(request, month, year, employee = None):
     user_id = request.user.pk
-
     if request.user.is_staff:
         print('is_staff')
         try:
             if not employee:
                 report = Installation.objects.filter(date__month=month, date__year=year, accepted=True)
+
             else:
                 report = get_employee_report(employee, month, year)
         except:
@@ -53,7 +53,7 @@ def list_month_report(request, employee=None):
     else:
         employees = employee
     user_id = request.user.pk
-    context = {'month_name':month_name(), 'employees':employees}
+    context = {'month_name':month_name(), 'employees':employees, 'year':datetime.date.today().year}
     context.update(today_date_weekday())
     context.update(month_installation_count(user_id=user_id))
     context.update(month_name())
@@ -100,3 +100,5 @@ def create_working_time(request):
     context.update(month_installation_count(user_id=employee))
     context.update({'dict_month_name': month_name()})
     return render(request, 'reports_app/create_working_time.html', context)
+
+

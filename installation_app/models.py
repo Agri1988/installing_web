@@ -2,9 +2,20 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 
+class InstallationStandart(models.Model):
+    standart = models.CharField(max_length=16, verbose_name='Standard instalacji', blank=True)
+    class Meta:
+        verbose_name = 'Standard instalacji'
+        verbose_name_plural = 'Standardy instalacje'
+
+    def __str__(self):
+        return self.standart
+
 
 class Installation(models.Model):
     with_contract = models.BooleanField(verbose_name='Umowa', default=False)
+    installation_standart = models.ForeignKey(InstallationStandart, default=None, blank=True, null=True,
+                                              on_delete=models.PROTECT, verbose_name='Standard instalacji')
     number = models.CharField(verbose_name='Numer zlecenia', max_length=22, blank=False, null=False)
     date = models.DateField(verbose_name='Data instalacji')
     time_slot_choices = [('0', '08.00-11.00'), ('1', '11.00-14.00'), ('2', '14.00-17.00'), ('3', '17.00-20.00')]
@@ -31,3 +42,5 @@ class Installation(models.Model):
         verbose_name = 'Instalacja'
         verbose_name_plural = 'Instalacje'
         ordering = ['date', 'time_slot', 'address']
+
+

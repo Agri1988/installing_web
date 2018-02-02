@@ -12,10 +12,12 @@
                     <th><input style="width: 100%"></th>
                     <th><input style="width: 100%"></th>
                     <th><input style="width: 100%"></th>
+                    <th><input style="width: 100%"></th>
                 </tr>
                 <tr>
                     <th style="width: 30px">№<br>prz</th>
                     <th style="width: 30px"><span class="glyphicon glyphicon-list"></span></th>
+                    <th style="width: 30px"><span class="glyphicon glyphicon-resize-small"></span></th>
                     <th style="width: 180px">Numer<br>zlecenia</th>
                     <th style="width: 80px">Data</th>
                     <th style="width: 90px">Slot<br>czasowy</th>
@@ -29,11 +31,12 @@
                 {% for installation in installations %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                            {% if installation.with_contract %}
-                                <td><span style="color: green" class="glyphicon glyphicon-plus"></span></td>
-                            {% else %}
-                                <td><span style="color: red" class="glyphicon glyphicon-minus"></span></td>
-                            {% endif %}
+                        {% if installation.with_contract %}
+                            <td><span style="color: green" class="glyphicon glyphicon-plus"></span></td>
+                        {% else %}
+                            <td><span style="color: red" class="glyphicon glyphicon-minus"></span></td>
+                        {% endif %}
+                        <td>{{ installation.installation_standart }}</td>
                         <td>
                             {% if user.is_staff %}
                                 <a href="{% url 'installation_app:installation_detail' installation.id%}">{{ installation.number }}</a>

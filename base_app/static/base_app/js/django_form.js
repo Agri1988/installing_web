@@ -1,5 +1,5 @@
-$(document).ready(function () {
-    var form = document.querySelector('form');
+function bootstrap_form(selector) {
+    var form = document.querySelector(selector);
     console.log(form)
     form.setAttribute('role',"form");
     //form.setAttribute('class',"form-inline")
@@ -12,8 +12,8 @@ $(document).ready(function () {
         value.parentNode.replaceChild(wrapper,value)
         console.log(value.innerHTML)
     })
-    var form = document.querySelectorAll('form div :not(label) ' );
+    var form = document.querySelectorAll(selector+' div :not(label) ' );
     form.forEach(function(item, i, arr){
     console.log(form[i].setAttribute('class','form-control'))
 });
-});
+};

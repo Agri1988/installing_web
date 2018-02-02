@@ -10,6 +10,7 @@
                             <tr>
                                 <th style="width: 30px">№<br>prz</th>
                                 <th style="width: 30px"><span class="glyphicon glyphicon-list"></span></th>
+                                <th style="width: 30px"><span class="glyphicon glyphicon-resize-small"></span></th>
                                 <th style="width: 180px">Numer<br>zlecenia</th>
                                 <th style="width: 80px">Data</th>
                                 <th style="width: 180px">Adres</th>
@@ -30,6 +31,7 @@
                                 {% else %}
                                     <td><span style="color: red" class="glyphicon glyphicon-minus"></span></td>
                                 {% endif %}
+                                <td>{{ installation.installation_standart }}</td>
                                 <td><a href="{% url 'installation_app:installation_detail' element.pk%}">{{ element.number }}</a> </td>
                                 <td>{{ element.address }}</td>
                                 <td>{{ element.date }}</td>

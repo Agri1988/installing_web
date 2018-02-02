@@ -1,16 +1,15 @@
 {% extends 'base_app/base.html' %}
 {% load staticfiles %}
 {% block body %}
-    <script src="{% static 'base_app/js/django_form.js' %}"></script>
     <script src="{% static 'reports_app/js/report_add.js' %}"></script>
     <div class="container">
         <div class="row" style="margin-top: 15px">
             <div class="col-lg-4">
-                <form   method="post" action="{% url 'reports_app:list_month_report' %}">
+                <form  id="create_month_report_form" method="post" action="{% url 'reports_app:list_month_report' %}">
                     {% csrf_token %}
                     <p>
                         <label itemid="month">Miesiąc</label>
-                        <select id="month" class="form-control">
+                        <select id="month" class="form-control" >
                             {% for number, name in dict_month_name.items %}
                                 <option value="{{ number }}">{{ name }}</option>
                             {% endfor %}
@@ -19,7 +18,7 @@
                     </p>
                     <p>
                         <label itemid="year">Rok</label>
-                        <input id="year" type="number" class="form-control">
+                        <input id="year" type="number" class="form-control" value="{{ year }}">
                     </p>
                     <p>
                         {% if user.is_staff and employees%}
@@ -35,6 +34,8 @@
                         <button id="btn_accept" class="form-control">Utwórz raport za biezący miesiąc</button>
                     </p>
                 </form>
+                <script type="text/javascript" src="{% static 'base_app/js/django_form.js' %}"></script>
+                <script type="text/javascript"> bootstrap_form('#create_month_report_form')</script>
             </div>
         </div>
     </div>

@@ -1,0 +1,12 @@
+<div>
+    {% load staticfiles %}
+
+    <form  id='standart_form' enctype="multipart/form-data" action="{% url 'installation_app:add_standart' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p><button name="submit">Zapisać</button></p>
+    </form>
+
+</div>
+        <script type="text/javascript" src="{% static 'base_app/js/django_form.js' %}"></script>
+        <script type="text/javascript"> bootstrap_form('#standart_form')</script>

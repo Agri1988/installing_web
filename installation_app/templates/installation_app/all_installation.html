@@ -1,16 +1,17 @@
 {% extends 'base_app/base.html' %}
 {% load staticfiles %}
 {% block body %}
-    <script src="{% static "base_app/js/django_form.js" %}"></script>
     <script src="{% static "installation_app/js/all_installation.js" %}"></script>
     <script type="text/javascript">var all_installation_link = "{% url 'installation_app:all_installation' %}"</script>
     <div class="container">
         <div class="row">
             <div class="col-lg-3">
-                <form  class="form-inline" action="{% url 'installation_app:all_installation' %}" id="search_form">
+                <form id="search_form" class="form-inline" action="{% url 'installation_app:all_installation' %}" id="search_form">
                     <p><input type="date" id="search_date"></p>
                     <p><input type="button" value="Wyszukuj" id="search_date_button"></p>
                 </form>
+                <script type="text/javascript" src="{% static 'base_app/js/django_form.js' %}"></script>
+                <script type="text/javascript"> bootstrap_form('#search_form')</script>
             </div>
         </div>
     </div>

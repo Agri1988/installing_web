@@ -1,18 +1,26 @@
 {% extends 'base_app/base.html' %}
 {% load staticfiles %}
 {% block body %}
-        <script type="text/javascript" src="{% static 'base_app/js/django_form.js' %}"></script>
-    <div class="row">
-        <div class="col-lg-6" >
-            <form method="post" action="{% url 'installation_app:installation_detail' installation_id%}">
-                {% csrf_token %}
-                {{ installation_form.as_p }}
-                    <p><button name="submit">Zapisać</button></p>
-                    <p><button name="submit_and_return">Zapisz i wróć</button></p>
+        <link rel="stylesheet" type="text/css" href="{% static 'installation_app/css/modal_form.css' %}">
+        {% if user.is_staff %}
+            <script type="text/javascript">var url_add_standart = "{% url 'installation_app:add_standart' %}"</script>
+            <script type="text/javascript" src="{% static 'installation_app/js/add_standart.js' %}"></script>
+        {% endif %}
 
-            </form>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6" >
+                <form id="installation_detail_form" method="post" action="{% url 'installation_app:installation_detail' installation_id%}">
+                    {% csrf_token %}
+                    {{ installation_form.as_p }}
+                        <p><button name="submit">Zapisać</button></p>
+                        <p><button name="submit_and_return">Zapisz i wróć</button></p>
 
+                </form>
+
+            </div>
         </div>
     </div>
-
+    <script type="text/javascript" src="{% static 'base_app/js/django_form.js' %}"></script>
+        <script type="text/javascript"> bootstrap_form('#installation_detail_form')</script>
 {% endblock %}

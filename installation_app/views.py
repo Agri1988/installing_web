@@ -1,14 +1,17 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from .forms import InstallationFormAdmin, InstallationFormUser
 from django.contrib.auth.models import User
-from .models import Installation
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
+from django.template.loader import get_template
+from django.http import JsonResponse
 from django.urls import reverse
 from django.db.models import Q
 import calendar
 import datetime
+
 from base_app.views import today_date_weekday,month_installation_count
+from .models import Installation
+from .forms import InstallationFormAdmin, InstallationFormUser, InstallationStandartForm
 
 # Create your views here.
 @login_required(login_url='users_app:login')
@@ -87,3 +90,23 @@ def delete_installation(request, installation_id, day, month, year):
         installation = Installation.objects.get(id=installation_id)
         installation.delete()
     return HttpResponseRedirect(reverse('installation_app:all_installation',args=[day, month,year]))
+
+
+def add_standart(request, template, form):
+    if request.user.is_staff:
+        print(request.GET)
+        if request.method != 'POST':
+            print('get')
+            context = {'form': form()}
+            template = get_template(template)
+            return HttpResponse(template.render(context, request))
+        else:
+            print(request.POST)
+            form = form(data=request.POST)
+            if form.is_valid():
+                print('valid')
+                new_element = form.save()
+                new_element_id = new_element.id
+                new_element_standart = new_element.standart
+            data_dict = {'new_element_id':new_element_id, 'new_element_standart':new_element_standart}
+            return JsonResponse(data_dict)
