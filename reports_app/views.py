@@ -83,9 +83,9 @@ def list_month_report(request, employee=None):
 
 
 @login_required(login_url='users_app:login')
-def working_time(request, month=datetime.date.today().month, year=datetime.date.today().year, employee=None):
-    day_count = calendar.monthrange(year, month)[1]
-    installation_list = get_employee_report(employee, month, year)
+def working_time(request, ts_month=datetime.date.today().month, year=datetime.date.today().year, employee=None):
+    day_count = calendar.monthrange(year, ts_month)[1]
+    installation_list = get_employee_report(employee, ts_month, year)
     installation_list_to_context = []
     list_working_time = []
     for i in range(1, day_count+1):
@@ -105,7 +105,7 @@ def working_time(request, month=datetime.date.today().month, year=datetime.date.
         time_result += time
 
     context = {'day_count':day_count, 'zip_lists':zip_lists,'inst_result':inst_result,'time_result':time_result,
-               'month':int(month), 'year':year, 'employee':User.objects.get(id=employee)}
+               'ts_month':int(ts_month), 'year':year, 'employee':User.objects.get(id=employee)}
     context.update(today_date_weekday())
     context.update({'dict_month_name': month_name()})
     context.update(month_installation_count(user_id=employee))

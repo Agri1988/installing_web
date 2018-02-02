@@ -16,12 +16,11 @@
                             {% for number, name in dict_month_name.items %}
                                 <option value="{{ number }}">{{ name }}</option>
                             {% endfor %}
-
                         </select>
                     </p>
                     <p>
                         <label itemid="year">Rok</label>
-                        <input id="year" type="number" class="form-control">
+                        <input value="{{ year }}" id="year" type="number" class="form-control">
                     </p>
                     <p>
                         {% if user.is_staff and employees%}

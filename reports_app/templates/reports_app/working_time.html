@@ -6,7 +6,7 @@
                 <a href="{% url 'installation_app:all_installation' %}"><h4 style="text-align: center;">Eloran</h4></a>
                 <h5 style="text-align: center;">Ewidencja czasu pracy {{ employee }} za
                     {% for key, val in dict_month_name.items %}
-                       {% ifequal key month %}
+                       {% ifequal key ts_month %}
                            {{ val }}
                         {% endifequal %}
                     {% endfor %}

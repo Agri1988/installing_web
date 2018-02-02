@@ -36,7 +36,10 @@
                         {% else %}
                             <td><span style="color: red" class="glyphicon glyphicon-minus"></span></td>
                         {% endif %}
-                        <td>{{ installation.installation_standart }}</td>
+                        <td>{% ifnotequal  installation.installation_standart  None%}
+                                {{ installation.installation_standart }}
+                            {% endifnotequal %}
+                        </td>
                         <td>
                             {% if user.is_staff %}
                                 <a href="{% url 'installation_app:installation_detail' installation.id%}">{{ installation.number }}</a>
