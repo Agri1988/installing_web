@@ -1,0 +1,40 @@
+{% load staticfiles %}
+<script type="text/javascript" src="{% static 'reports_app/js/summory_report.js' %}"></script>
+
+<div class="container" >
+    <button id="show_summory_report">Posumowanie</button>
+    <div id="summory_report_table" class="table-responsive " style="display: none">
+            <table  id="table" class="table table-bordered">
+                <tr>
+                    <th>Nr</th>
+                    <th>Imię Nazwisko</th>
+                    <th>Ilość instalacji</th>
+                    <th>Samodzielne<br>instalacje</th>
+                    <th>Instalacje<br>we dwujkę</th>
+                    <th>Instalację<br>we trzech</th>
+                </tr>
+                {% for key, value in dict.items %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ key }}</td>
+                        <td>{{ value.0 }}</td>
+                        {% for element in value.1 %}
+                             <td>
+                                {{ element }}
+                             </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td></td>
+                    <td>Łącznie instalacje</td>
+                    <td>{{ count_installations }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+    </div>
+
+
+</div>
