@@ -20,34 +20,48 @@ def get_employee_report(employee, month, year):
 
 # Create your views here.
 @login_required(login_url='users_app:login')
-def month_report(request, month, year, employee = None, detail=True):
+def month_report(request, month, year, employee = None, detail=False):
     user_id = request.user.pk
+    def get_detail_information():
+        users_list = {}
+        if employee is None:
+            user_query = User.objects.filter(is_staff=False).order_by('first_name')
+        else:
+            user_query = User.objects.filter(id=employee)
+            print('try')
+        for user in (user_query) :
+            user_installations = get_employee_report(user.id, month, year)
+            users_list[user.first_name + ' ' + user.last_name] = []
+            users_list[user.first_name + ' ' + user.last_name].append(len(user_installations))
+            users_list[user.first_name + ' ' + user.last_name].append([0, 0, 0])
+            for installation in user_installations:
+                # print(installation.employee_1, installation.employee_2, installation.employee_3)
+                if (installation.employee_1 == None and installation.employee_2 == None) \
+                        or (installation.employee_2 == None and installation.employee_3 == None) \
+                        or (installation.employee_3 == None and installation.employee_1 == None):
+                    users_list[user.first_name + ' ' + user.last_name][1][0] += 1
+                elif (installation.employee_1 == None and (
+                        installation.employee_2 != None and installation.employee_3 != None)) \
+                        or (installation.employee_2 == None and (
+                                installation.employee_3 != None and installation.employee_1 != None)) \
+                        or (installation.employee_3 == None and (
+                                installation.employee_1 != None and installation.employee_2 != None)):
+                    users_list[user.first_name + ' ' + user.last_name][1][1] += 1
+                else:
+                    users_list[user.first_name + ' ' + user.last_name][1][2] += 1
+        return {'users_installations_list':users_list}
     if request.user.is_staff:
         print('is_staff')
         try:
             if not employee:
                 report = Installation.objects.filter(date__month=month, date__year=year, accepted=True)
                 if detail == True:
-                    users_list = {}
-                    for user in User.objects.filter(is_staff=False).order_by('first_name'):
-                        user_installations = get_employee_report(user.id,month,year)
-                        users_list[user.first_name + ' ' + user.last_name] = []
-                        users_list[user.first_name+' '+user.last_name].append(len(user_installations))
-                        users_list[user.first_name + ' ' + user.last_name].append([0, 0, 0])
-                        for installation in user_installations:
-                            #print(installation.employee_1, installation.employee_2, installation.employee_3)
-                            if (installation.employee_1 == None and installation.employee_2 == None) \
-                                or (installation.employee_2 == None and installation.employee_3 == None) \
-                                    or (installation.employee_3 == None and installation.employee_1 == None):
-                                        users_list[user.first_name + ' ' + user.last_name][1][0]+=1
-                            elif (installation.employee_1 == None and (installation.employee_2  != None and installation.employee_3 != None)) \
-                                or (installation.employee_2 == None and (installation.employee_3  != None and installation.employee_1 != None)) \
-                                    or (installation.employee_3 == None and (installation.employee_1 != None and installation.employee_2 != None)):
-                                        users_list[user.first_name + ' ' + user.last_name][1][1]+=1
-                            else:
-                                users_list[user.first_name + ' ' + user.last_name][1][2] += 1
+                    detail_information=get_detail_information()
             else:
                 report = get_employee_report(employee, month, year)
+                if detail == True:
+                    print('hejhej')
+                    detail_information=get_detail_information()
         except:
             return HttpResponseRedirect (reverse ('reports_app:list_month_report'))
     else:
@@ -57,9 +71,9 @@ def month_report(request, month, year, employee = None, detail=True):
         except:
             return HttpResponseRedirect (reverse ('reports_app:list_month_report'))
     context = {'report':report, 'month':month, 'year':year, 'employee':employee,
-               'len_contract':len(report.filter(with_contract=True))}
+               'len_contract':len(report.filter(with_contract=True)),'count_installations':len(report), 'detail':detail}
     print(type(month))
-    try:context.update({'users_installations_list':users_list, 'count_installations':len(report)})
+    try:context.update(detail_information)
     except:pass
     context.update(today_date_weekday())
     context.update({'dict_month_name': month_name(month)})

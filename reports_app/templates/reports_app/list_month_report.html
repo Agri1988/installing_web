@@ -31,6 +31,12 @@
                         {% endif %}
                     </p>
                     <p>
+                        {% if user.is_staff %}
+                            <label itemid="more_detail">Dodatkowa informacja</label>
+                            <input id="more_detail" type="checkbox">
+                        {% endif %}
+                    </p>
+                    <p>
                         <button id="btn_accept" class="form-control">Utwórz raport za biezący miesiąc</button>
                     </p>
                 </form>

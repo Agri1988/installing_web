@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-lg-12">
                 Raport za {{ dict_month_name }} {{ year }} roku.
-                {% if user.is_staff %}
+                {% if user.is_staff and detail%}
                     {% include 'reports_app/consolidated_report.html' with dict=users_installations_list %}
                 {% endif %}
                 <div class="table-responsive ">

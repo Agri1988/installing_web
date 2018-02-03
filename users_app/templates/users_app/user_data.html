@@ -6,9 +6,9 @@
         <div class="row">
             <div class="col-lg-4 col-lg-offset-4">
             {% if  user.is_staff and other_user_change%}
-                <form action="{% url 'users_app:user_data_admin' other_user_change%}" method="post">
+                <form id="user_data_form" action="{% url 'users_app:user_data_admin' other_user_change%}" method="post">
                 {% else %}
-                <form action="{% url 'users_app:user_data' %}" method="post">
+                <form id="user_data_form" action="{% url 'users_app:user_data' %}" method="post">
             {% endif %}
 
                     {% csrf_token %}
@@ -29,6 +29,8 @@
 
                     <p><button>Zapisać</button></p>
                 </form>
+                    <script type="text/javascript" src="{% static 'base_app/js/django_form.js' %}"></script>
+                    <script type="text/javascript"> bootstrap_form('#user_data_form')</script>
 
                 <a href="{% url 'users_app:password_change' %}" >
                     Zmienić hasło

@@ -5,14 +5,24 @@ $(document).ready(function () {
     btn.on('click', function (event) {
         var month = $('#month').val();
         var year = $('#year').val();
-        var employee = $('#employee').val()
+        var employee = $('#employee').val();
+        var more_detail = $('#more_detail').prop("checked");
+        console.log(more_detail);
         if (employee){
             event.preventDefault();
-            document.location.href = url+month+'/'+year+'/'+employee
+            if (more_detail){
+                document.location.href = url+month+'/'+year+'/'+employee+'/detail/'
+            }
+            else {document.location.href = url+month+'/'+year+'/'+employee+'/'}
+
         }
         else{
             event.preventDefault();
-            document.location.href = url+month+'/'+year+'/'
+            if (more_detail){
+                document.location.href = url+month+'/'+year+'/detail/'
+            }
+            else {document.location.href = url+month+'/'+year+'/'}
+
         }
                 // console.log('hej')
         // $.ajax({

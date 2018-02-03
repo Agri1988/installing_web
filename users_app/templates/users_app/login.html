@@ -8,12 +8,14 @@
                 {% if form.errors %}
                     <p>Wprowadzone błędne dane</p>
                 {% endif %}
-                <form method="post" action="{% url 'users_app:login' %}">
+                <form id="login_form" method="post" action="{% url 'users_app:login' %}">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <p><button name="submit">Wejść</button></p>
                     <input type="hidden" name="next" value="{% url 'installation_app:all_installation' %}">
                 </form>
+                    <script type="text/javascript" src="{% static 'base_app/js/django_form.js' %}"></script>
+                    <script type="text/javascript"> bootstrap_form('#login_form')</script>
             </div>
         </div>
     </div>
