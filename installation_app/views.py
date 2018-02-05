@@ -15,9 +15,8 @@ from .forms import InstallationFormAdmin, InstallationFormUser, InstallationStan
 
 # Create your views here.
 @login_required(login_url='users_app:login')
-def all_installation(request, day=datetime.date.today().day, month=datetime.date.today().month,
-                     year = datetime.date.today().year):
-
+def all_installation(request, day=datetime.datetime.utcnow().day, month=datetime.datetime.utcnow().month,
+                     year = datetime.datetime.utcnow().year):
     day_in_month = calendar.mdays[month]
     days_list = [datetime.date(year, month, tmp_day).strftime('%d.%m.%Y') for tmp_day in range(1, day_in_month+1)]
     user_id = request.user.pk
