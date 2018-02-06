@@ -2,39 +2,78 @@
 <script type="text/javascript" src="{% static 'reports_app/js/summory_report.js' %}"></script>
 
 <div class="container" >
-    <button id="show_summory_report">Podsumowanie</button>
-    <div id="summory_report_table" class="table-responsive " style="display: none">
-            <table  id="table" class="table table-bordered">
-                <tr>
-                    <th>Nr</th>
-                    <th>Imię Nazwisko</th>
-                    <th>Ilość instalacji</th>
-                    <th>Samodzielne<br>instalacje</th>
-                    <th>Instalacje<br>we dwujkę</th>
-                    <th>Instalację<br>we trzech</th>
-                </tr>
-                {% for key, value in dict.items %}
-                    <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ key }}</td>
-                        <td>{{ value.0 }}</td>
-                        {% for element in value.1 %}
-                             <td>
-                                {{ element }}
-                             </td>
-                        {% endfor %}
-                    </tr>
-                {% endfor %}
-                <tr>
-                    <td></td>
-                    <td>Łącznie instalacje</td>
-                    <td>{{ count_installations }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </table>
-    </div>
+<button id="show_summory_report">Podsumowanie</button>
+    <div class="row">
+        <div class="col-lg-6 col-lg-offset-3">
 
+            <div id="summory_report_table" class="table-responsive " style="display: none">
+                <table  id="table" class="table table-bordered">
+                    <tr>
+                        <th>Imię Nazwisko</th>
+                        <th>Ilość instalacji</th>
+                        <th>Samodzielne<br>instalacje</th>
+                        <th>Instalacje<br>we dwujkę</th>
+                        <th>Instalację<br>we trzech</th>
+                    </tr>
+                    {% for key, value in dict.items %}
+                        <tr>{% if not key.is_active %}
+                            <td>{{ key }}</td>
+                            <td>{{ value.0 }}</td>
+                            {% for element in value.1 %}
+                                 <td >
+                                    {{ element }}
+                                 </td>
+                            {% endfor %}
+                        {% endif %}
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td style="font-weight: 600">Łącznie instalacji</td>
+                        <td style="font-weight: 600">{{ count_installations }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+
+                <table  id="table" class="table table-bordered">
+                    <tr>
+                        <th>Standart instalacji</th>
+                        <th>Ilość instalacji</th>
+                    </tr>
+                    {% for standart in installation_standart %}
+                        <tr>
+                            <td>{{ standart }}</td>
+                            <td>{% for key, item in installations_standart_dict.items %}
+                                    {% ifequal key|stringformat:'s' standart|stringformat:'s' %}
+                                        {{ item }}
+                                    {% endifequal %}
+                            {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+
+                <table  id="table" class="table table-bordered">
+                    <tr>
+                        <th>Typ instalacji</th>
+                        <th>Ilość instalacji</th>
+                    </tr>
+                    {% for type in installation_type %}
+                        <tr>
+                            <td>{{ type }}</td>
+                            <td>{% for key, item in installations_type_dict.items %}
+                                    {% ifequal key|stringformat:'s' type|stringformat:'s' %}
+                                        {{ item }}
+                                    {% endifequal %}
+                            {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+
+            </div>
+        </div>
+    </div>
 
 </div>

@@ -1,5 +1,6 @@
 import calendar
 import datetime
+from collections import OrderedDict
 
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
@@ -7,7 +8,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from installation_app.models import Installation
+from installation_app.models import Installation, InstallationType,InstallationStandart
 from django.contrib.auth.models import User
 from base_app.views import month_name, today_date_weekday, month_installation_count
 
@@ -31,25 +32,26 @@ def month_report(request, month, year, employee = None, detail=False):
             print('try')
         for user in (user_query) :
             user_installations = get_employee_report(user.id, month, year)
-            users_list[user.first_name + ' ' + user.last_name] = []
-            users_list[user.first_name + ' ' + user.last_name].append(len(user_installations))
-            users_list[user.first_name + ' ' + user.last_name].append([0, 0, 0])
-            for installation in user_installations:
-                # print(installation.employee_1, installation.employee_2, installation.employee_3)
-                if (installation.employee_1 == None and installation.employee_2 == None) \
-                        or (installation.employee_2 == None and installation.employee_3 == None) \
-                        or (installation.employee_3 == None and installation.employee_1 == None):
-                    users_list[user.first_name + ' ' + user.last_name][1][0] += 1
-                elif (installation.employee_1 == None and (
-                        installation.employee_2 != None and installation.employee_3 != None)) \
-                        or (installation.employee_2 == None and (
-                                installation.employee_3 != None and installation.employee_1 != None)) \
-                        or (installation.employee_3 == None and (
-                                installation.employee_1 != None and installation.employee_2 != None)):
-                    users_list[user.first_name + ' ' + user.last_name][1][1] += 1
-                else:
-                    users_list[user.first_name + ' ' + user.last_name][1][2] += 1
-        return {'users_installations_list':users_list}
+            if user_installations:
+                users_list[user.first_name + ' ' + user.last_name] = []
+                users_list[user.first_name + ' ' + user.last_name].append(len(user_installations))
+                users_list[user.first_name + ' ' + user.last_name].append([0, 0, 0])
+                for installation in user_installations:
+                    # print(installation.employee_1, installation.employee_2, installation.employee_3)
+                    if (installation.employee_1 == None and installation.employee_2 == None) \
+                            or (installation.employee_2 == None and installation.employee_3 == None) \
+                            or (installation.employee_3 == None and installation.employee_1 == None):
+                        users_list[user.first_name + ' ' + user.last_name][1][0] += 1
+                    elif (installation.employee_1 == None and (
+                            installation.employee_2 != None and installation.employee_3 != None)) \
+                            or (installation.employee_2 == None and (
+                                    installation.employee_3 != None and installation.employee_1 != None)) \
+                            or (installation.employee_3 == None and (
+                                    installation.employee_1 != None and installation.employee_2 != None)):
+                        users_list[user.first_name + ' ' + user.last_name][1][1] += 1
+                    else:
+                        users_list[user.first_name + ' ' + user.last_name][1][2] += 1
+        return {'users_installations_list':users_list, }
     if request.user.is_staff:
         print('is_staff')
         try:
@@ -71,7 +73,13 @@ def month_report(request, month, year, employee = None, detail=False):
         except:
             return HttpResponseRedirect (reverse ('reports_app:list_month_report'))
     context = {'report':report, 'month':month, 'year':year, 'employee':employee,
-               'len_contract':len(report.filter(with_contract=True)),'count_installations':len(report), 'detail':detail}
+               'len_contract':len(report.filter(with_contract=True)),'count_installations':len(report), 'detail':detail,
+               'installation_standart':[inst_standart for inst_standart in InstallationStandart.objects.all()],
+               'installation_type':[inst_type for inst_type in InstallationType.objects.all()],
+               'installations_standart_dict':{standart.standart:(len(report.filter(installation_standart=standart.id)))
+                                              for standart in InstallationStandart.objects.all()},
+               'installations_type_dict':{inst_type.type:(len(report.filter(installation_type=inst_type.id)))
+                                          for inst_type in InstallationType.objects.all()}}
     print(type(month))
     try:context.update(detail_information)
     except:pass

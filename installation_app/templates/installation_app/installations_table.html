@@ -13,11 +13,13 @@
                     <th><input style="width: 100%"></th>
                     <th><input style="width: 100%"></th>
                     <th><input style="width: 100%"></th>
+                    <th><input style="width: 100%"></th>
                 </tr>
                 <tr>
                     <th style="width: 30px">№<br>prz</th>
                     <th style="width: 30px"><span class="glyphicon glyphicon-list"></span></th>
                     <th style="width: 30px"><span class="glyphicon glyphicon-resize-small"></span></th>
+                    <th style="width: 30px">Typ</th>
                     <th style="width: 180px">Numer<br>zlecenia</th>
                     <th style="width: 80px">Data</th>
                     <th style="width: 90px">Slot<br>czasowy</th>
@@ -39,6 +41,10 @@
                         <td>{% ifnotequal  installation.installation_standart  None%}
                                 {{ installation.installation_standart }}
                             {% endifnotequal %}
+                        </td>
+                        <td>{% ifnotequal  installation.installation_type  None%}
+                                    {{ installation.installation_type }}
+                                {% endifnotequal %}
                         </td>
                         <td>
                             {% if user.is_staff %}

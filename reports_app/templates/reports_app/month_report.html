@@ -6,7 +6,7 @@
                 <div class="col-lg-12">
                 Raport za {{ dict_month_name }} {{ year }} roku.
                 {% if user.is_staff and detail%}
-                    {% include 'reports_app/consolidated_report.html' with dict=users_installations_list %}
+                    {% include 'reports_app/consolidated_report.html' with dict=users_installations_list installations_standart_dict=installations_standart_dict installations_type_dict=installations_type_dict installation_standart=installation_standart installation_type=installation_type%}
                 {% endif %}
                 <div class="table-responsive ">
                     <table id="table" class="table table-bordered">
@@ -14,6 +14,7 @@
                                 <th style="width: 30px">№<br>prz</th>
                                 <th style="width: 30px"><span class="glyphicon glyphicon-list"></span></th>
                                 <th style="width: 30px"><span class="glyphicon glyphicon-resize-small"></span></th>
+                                <th style="width: 30px">Typ</th>
                                 <th style="width: 180px">Numer<br>zlecenia</th>
                                 <th style="width: 80px">Data</th>
                                 <th style="width: 180px">Adres</th>
@@ -34,7 +35,12 @@
                                 {% else %}
                                     <td><span style="color: red" class="glyphicon glyphicon-minus"></span></td>
                                 {% endif %}
-                                <td>{{ installation.installation_standart }}</td>
+                                <td>{% if element.installation_standart  %}
+                                        {{ element.installation_standart }}
+                                {% endif %}</td>
+                                <td>{% if element.installation_type  %}
+                                        {{ element.installation_type }}
+                                {% endif %}</td>
                                 <td><a href="{% url 'installation_app:installation_detail' element.pk%}">{{ element.number }}</a> </td>
                                 <td>{{ element.address }}</td>
                                 <td>{{ element.date }}</td>
@@ -74,21 +80,21 @@
                             </tr>
                         {% endfor %}
                         {% ifnotequal  len_contract  0 %}
-                        <tr>
-                            <td></td>
-                            <td>{{ len_contract }}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            {% if user.is_staff and not employee%}
+                            <tr>
+                                <td></td>
+                                <td>{{ len_contract }}</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                            {% elif not user.is_staff or employee %}
-                                <td></td>
-                            {% endif %}
+                                {% if user.is_staff and not employee%}
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                {% elif not user.is_staff or employee %}
+                                    <td></td>
+                                {% endif %}
+                            </tr>
                         {% endifnotequal %}
-                        </tr>
                     </table>
                 </div>
                 </div>

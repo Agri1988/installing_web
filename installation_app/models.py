@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 class InstallationStandart(models.Model):
     standart = models.CharField(max_length=16, verbose_name='Standard instalacji', blank=True)
     class Meta:
+        ordering = ['standart']
         verbose_name = 'Standard instalacji'
         verbose_name_plural = 'Standardy instalacje'
 
@@ -12,10 +13,23 @@ class InstallationStandart(models.Model):
         return self.standart
 
 
+class InstallationType(models.Model):
+    type = models.CharField(max_length=16, verbose_name='Typ instalacji', blank=True)
+    class Meta:
+        ordering = ['type']
+        verbose_name = 'Typ instalacji'
+        verbose_name_plural = 'Typy instalacje'
+
+    def __str__(self):
+        return self.type
+
+
 class Installation(models.Model):
     with_contract = models.BooleanField(verbose_name='Umowa', default=False)
     installation_standart = models.ForeignKey(InstallationStandart, default=None, blank=True, null=True,
                                               on_delete=models.PROTECT, verbose_name='Standard instalacji')
+    installation_type = models.ForeignKey(InstallationType,default=None, blank=True, null=True,
+                                              on_delete=models.PROTECT, verbose_name='Typ instalacji' )
     number = models.CharField(verbose_name='Numer zlecenia', max_length=22, blank=False, null=False)
     date = models.DateField(verbose_name='Data instalacji')
     time_slot_choices = [('0', '08.00-11.00'), ('1', '11.00-14.00'), ('2', '14.00-17.00'), ('3', '17.00-20.00')]

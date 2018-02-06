@@ -1,13 +1,13 @@
 $(document).ready(function () {
-    var standart = $('#id_installation_standart');
+    var standart = $('#id_installation_type');
     standart.after('<div id="modal_form">' +
         '<span id="modal_close">X</span>' +
         '</div>' +
         '<div id="overlay"></div>' +
             '<div class="form-group">' +
-        '<button class="form-control" value="'+url_add_standart+'" id="add_standart">Dodać nowy standard</button>' +
+        '<button class="form-control" value="'+url_add_type+'" id="add_type">Dodać nowy typ</button>' +
         '</div>');
-    var add_btn = $('#add_standart');
+    var add_btn = $('#add_type');
     add_btn.click( function (e) {
         e.preventDefault();
         var data_dict= {};
@@ -58,11 +58,11 @@ $(document).ready(function () {
         event.preventDefault();
         var csrf = $('#installation_detail_form').find("[name='csrfmiddlewaretoken']").val();
         var data_dict= {};
-        $('#modal_form').find('#standart_form div').each(function (index) {
+        $('#modal_form').find('#type_form div').each(function (index) {
             data_dict[$(this).find('input').attr('name')] = $(this).find('input').val()
         });
         data_dict['csrfmiddlewaretoken']=csrf;
-        var url = $('#modal_form').find('#standart_form').attr('action');
+        var url = $('#modal_form').find('#type_form').attr('action');
         console.log(data_dict);
         $.ajax({
                 url:url,
@@ -71,9 +71,9 @@ $(document).ready(function () {
                 cache:true,
                 success:function (data){
                     console.log('OK', data);
-                    var standart = $('#id_installation_standart');
-                    standart.append("<option value="+data['new_element_id']+">"+data['new_element_name']+"</option>");
-                    standart.val(data['new_element_id']);
+                    var type = $('#id_installation_type');
+                    type.append("<option value="+data['new_element_id']+">"+data['new_element_name']+"</option>");
+                    type.val(data['new_element_id']);
                     close_modal_window()
                 },
                 error:function () {

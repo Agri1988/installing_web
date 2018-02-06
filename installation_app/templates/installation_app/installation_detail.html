@@ -5,6 +5,9 @@
         {% if user.is_staff %}
             <script type="text/javascript">var url_add_standart = "{% url 'installation_app:add_standart' %}"</script>
             <script type="text/javascript" src="{% static 'installation_app/js/add_standart.js' %}"></script>
+
+            <script type="text/javascript">var url_add_type = "{% url 'installation_app:add_type' %}"</script>
+            <script type="text/javascript" src="{% static 'installation_app/js/add_type.js' %}"></script>
         {% endif %}
 
     <div class="container">

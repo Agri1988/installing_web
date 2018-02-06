@@ -113,7 +113,7 @@ DATE_INPUT_FORMATS = ['%d.%m.%Y', '%d,%m,%Y', '%d/%m/%Y','%d-%m-%Y']
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'ETC'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 

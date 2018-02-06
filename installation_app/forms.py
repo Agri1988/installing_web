@@ -1,5 +1,5 @@
 from django import forms
-from .models import Installation, InstallationStandart
+from .models import Installation, InstallationStandart,InstallationType
 from django.contrib.auth.models import User
 
 class InstallationFormUser(forms.ModelForm):
@@ -29,4 +29,10 @@ class InstallationFormAdmin(forms.ModelForm):
 class InstallationStandartForm(forms.ModelForm):
     class Meta:
         model = InstallationStandart
+        fields = '__all__'
+
+
+class InstallationTypeForm(forms.ModelForm):
+    class Meta:
+        model = InstallationType
         fields = '__all__'

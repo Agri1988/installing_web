@@ -91,7 +91,7 @@ def delete_installation(request, installation_id, day, month, year):
     return HttpResponseRedirect(reverse('installation_app:all_installation',args=[day, month,year]))
 
 
-def add_standart(request, template, form):
+def add_field_element(request, template, form, fieldname):
     if request.user.is_staff:
         print(request.GET)
         if request.method != 'POST':
@@ -106,6 +106,7 @@ def add_standart(request, template, form):
                 print('valid')
                 new_element = form.save()
                 new_element_id = new_element.id
-                new_element_standart = new_element.standart
-            data_dict = {'new_element_id':new_element_id, 'new_element_standart':new_element_standart}
+                new_element_name = getattr(new_element, fieldname)
+                print(new_element_name)
+            data_dict = {'new_element_id':new_element_id, 'new_element_name':new_element_name}
             return JsonResponse(data_dict)
