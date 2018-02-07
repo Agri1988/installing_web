@@ -1,9 +1,10 @@
 from django.urls import path, include
 from . import views, forms
-
+import datetime
 app_name = 'installation_app'
 urlpatterns = [
-    path('', views.all_installation,  name='all_installation'),
+    path('', views.all_installation, {'day':datetime.datetime.utcnow().day, 'month':datetime.datetime.utcnow().month,
+                                      'year':datetime.datetime.utcnow().year}, name='all_installation'),
     path('<int:day>/<int:month>/<int:year>/', views.all_installation,  name='all_installation'),
     path('detail/<int:installation_id>/', views.installation_detail,  name='installation_detail'),
     path('detail/<int:installation_id>/<int:day>/<int:month>/<int:year>/', views.installation_detail,  name='add_installation'),
@@ -17,4 +18,5 @@ urlpatterns = [
                                               'template':'installation_app/add_type.html',
                                               'fieldname': 'type'},
                                                 name='add_type'),
+
 ]
