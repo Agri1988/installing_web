@@ -1,6 +1,6 @@
 $(document).ready(function () {
     var csrf = $("[name='csrfmiddlewaretoken']").val();
-    var url = $('form').attr('action');
+    var url = $('#create_workingtime_report_form').attr('action');
     var btn = $('#btn_accept');
     btn.on('click', function (event) {
         var month = $('#month').val();

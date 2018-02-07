@@ -1,5 +1,6 @@
 from django.urls import path, include
 from . import views
+from installation_app.models import Installation
 
 app_name = 'reports_app'
 urlpatterns = [
@@ -12,4 +13,7 @@ urlpatterns = [
     path('working_time/', views.working_time,  name='working_time'),#workingtime list
     path('working_time/<int:ts_month>/<int:year>/<int:employee>/', views.working_time,  name='working_time'),#workingtime list
     path('create_working_time/', views.create_working_time,  name='create_working_time'),#ceate workingtime list
+    path('search/', views.search, {'template':'reports_app/search_data.html',
+                                   'fields':['address', 'number'],
+                                   'model':Installation},  name='search'),#ceate workingtime list
 ]

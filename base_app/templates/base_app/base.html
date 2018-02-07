@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +14,8 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% csrf_token %}
     {% block head %}
 
     {% endblock head %}
@@ -57,12 +60,19 @@
         </li>
       </ul>
 
-      <!--<form class="navbar-form navbar-left" role="search">
+      {% if user.is_staff %}
+          <form id="installation_search_form" class="navbar-form navbar-left" role="search">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
+          <input type="text" class="form-control" placeholder="adres czy numer zlecenia">
         </div>
-        <button type="submit" class="btn btn-default">Отправить</button>
-      </form>-->
+        <button type="submit" class="btn btn-default">Wyszukuj</button>
+      </form>
+        <script type="text/javascript" src="{% static 'reports_app/js/search_data.js' %}"></script>
+        <script type="text/javascript">
+            var url= '{% url 'reports_app:search' %}';
+            search_data(url)
+        </script>
+      {% endif %}
       <ul class="nav navbar-nav navbar-right">
           {% if user.is_authenticated %}
               <li><a href="{% url 'users_app:user_data' %}">Dane użytkownika</a></li>

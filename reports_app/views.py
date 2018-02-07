@@ -4,9 +4,11 @@ from collections import OrderedDict
 
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.http import HttpResponseRedirect, HttpResponse
+from django.template.loader import get_template
+from django.http import JsonResponse
 
 from installation_app.models import Installation, InstallationType,InstallationStandart
 from django.contrib.auth.models import User
@@ -143,5 +145,19 @@ def create_working_time(request):
     context.update(month_installation_count(user_id=employee))
     context.update({'dict_month_name': month_name()})
     return render(request, 'reports_app/create_working_time.html', context)
+
+
+def search(request, template, fields, model):
+    if request.user.is_staff:
+        print(request.POST)
+        if request.method == 'POST':
+            def get_installation(data):
+                for field in fields:
+                    expr = {'%s__contains'%field: data}
+                    result = model.objects.filter(**expr)
+                    if len(result) > 0:
+                        return result
+    template = get_template(template)
+    return HttpResponse(template.render({'result':get_installation(request.POST['input'])}, request))
 
 
