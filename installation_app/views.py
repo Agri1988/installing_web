@@ -13,9 +13,15 @@ from base_app.views import today_date_weekday,month_installation_count
 from .models import Installation
 from .forms import InstallationFormAdmin, InstallationFormUser, InstallationStandartForm
 
+def get_today_date():
+    day, month, year = datetime.datetime.utcnow().day, datetime.datetime.utcnow().month, datetime.datetime.utcnow().year
+    return day, month, year
+
 # Create your views here.
 @login_required(login_url='users_app:login')
-def all_installation(request, day, month,year):
+def all_installation(request, day=None, month=None,year=None):
+    if day==None and month==None and year==None:
+        day, month, year = get_today_date()
     day_in_month = calendar.mdays[month]
     days_list = [datetime.date(year, month, tmp_day).strftime('%d.%m.%Y') for tmp_day in range(1, day_in_month+1)]
     user_id = request.user.pk
