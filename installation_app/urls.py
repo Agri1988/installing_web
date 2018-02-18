@@ -17,5 +17,6 @@ urlpatterns = [
                                               'template':'installation_app/add_type.html',
                                               'fieldname': 'type'},
                                                 name='add_type'),
+    path('delete_image/<int:installation_image_id>/', views.delete_installation_image, name='delete_image'),
 
 ]

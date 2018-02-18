@@ -19,6 +19,7 @@
                         {% if installation_images %}
                             {% for installation_image in installation_images %}
                                 <a href="{{ installation_image.image.url }}"><img src="{{ installation_image.image.url }}" class="img-responsive"> </a>
+                                <a href="{% url 'installation_app:delete_image' installation_image.id %}"><span class="glyphicon glyphicon-trash"></span></a>
                             {% endfor %}
 
                         {% endif %}
