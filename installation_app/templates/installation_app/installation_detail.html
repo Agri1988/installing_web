@@ -13,12 +13,28 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6" >
-                <form id="installation_detail_form" method="post" action="{% url 'installation_app:installation_detail' installation_id%}">
+                <form id="installation_detail_form" method="post" enctype="multipart/form-data" action="{% url 'installation_app:installation_detail' installation_id%}">
                     {% csrf_token %}
                     {{ installation_form.as_p }}
+                        {% if installation_images %}
+                            {% for installation_image in installation_images %}
+                                <a href="{{ installation_image.image.url }}"><img src="{{ installation_image.image.url }}" class="img-responsive"> </a>
+                            {% endfor %}
+
+                        {% endif %}
+                        <p><input id="add_image_id" type="file" name="image" onchange="submit_form()"></p>
                         <p><button name="submit">Zapisać</button></p>
                         <p><button name="submit_and_return">Zapisz i wróć</button></p>
 
+                        <script type="text/javascript"> function submit_form() {
+                            $('[name="submit"]').click()
+                            location.hash = 'add_image_id'
+                            }
+                        </script>
+                    {% if installation_images %}
+                        <script type="text/javascript"></script>
+                {% endif %}
+                    
                 </form>
 
             </div>

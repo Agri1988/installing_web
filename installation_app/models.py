@@ -23,6 +23,25 @@ class InstallationType(models.Model):
     def __str__(self):
         return self.type
 
+class InstallationImage(models.Model):
+    installation = models.ForeignKey('Installation', on_delete=models.CASCADE, verbose_name='Instalacja')
+    image = models.ImageField(upload_to='image/installation_app/%Y/%m/%d', default=None, blank=True, null=True, verbose_name='zdjęcie')
+
+    def save(self, *args, **kwargs):
+        try:
+            this_entry = InstallationImage.objects.get(id=self.id)
+            if this_entry.image != self.image:
+                this_entry.image.delete(save=False)
+        except:
+            pass
+
+        super(InstallationImage, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        self.image.delete(save=False)
+
+        super(InstallationImage, self).delete(*args, **kwargs)
+
 
 class Installation(models.Model):
     with_contract = models.BooleanField(verbose_name='Umowa', default=False)
@@ -42,6 +61,7 @@ class Installation(models.Model):
                                    null=True, verbose_name='drugi pracownik')
     employee_3 = models.ForeignKey(User, related_name='employee_3', on_delete=models.PROTECT, default=None,
                                    blank=True, null=True, verbose_name='trzeci pracownik')
+    comment = models.TextField(verbose_name='Komentarz', blank=True,null=True,default=None)
     success = models.BooleanField(default=False, verbose_name='Skuteczna')
     accepted = models.BooleanField(default=False, verbose_name='Potwierdzona')
 

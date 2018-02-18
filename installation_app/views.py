@@ -10,7 +10,7 @@ import calendar
 import datetime
 
 from base_app.views import today_date_weekday,month_installation_count
-from .models import Installation
+from .models import Installation, InstallationImage
 from .forms import InstallationFormAdmin, InstallationFormUser, InstallationStandartForm
 
 def get_today_date():
@@ -47,12 +47,14 @@ def installation_detail(request, installation_id, day=datetime.date.today().day,
     user_id = request.user.pk
     user = User.objects.get(id=user_id)
     print(datetime.date(year,month,day).strftime('%d.%m.%Y'))
+    installation_images = None
     if installation_id == 0:
         installation = None
         initial_data = {'employee_1':user_id, 'date':(datetime.date(year,month,day).strftime('%d.%m.%Y'))}
     else:
         installation = Installation.objects.get(id=installation_id)
         initial_data = None
+        installation_images = InstallationImage.objects.filter(installation=installation_id)
 
     def get_installation_form(instance=None, data = None, initial=None):
         if not user.is_staff:
@@ -69,10 +71,15 @@ def installation_detail(request, installation_id, day=datetime.date.today().day,
                                                           installation.date.year]))
         except AttributeError:pass
     else:
-        installation_form = get_installation_form(instance=installation,data=request.POST)
+        installation_form = get_installation_form(data=request.POST, instance=installation)
         if installation_form.is_valid():
             new_installation = installation_form.save()
             installation_id = new_installation.id
+            if request.FILES:
+                new_installation_image = InstallationImage()
+                new_installation_image.installation_id=installation_id
+                new_installation_image.image = request.FILES['image']
+                new_installation_image.save()
             if 'submit_and_return' in request.POST:
                 installation_date = new_installation.date
                 print(installation_date)
@@ -80,7 +87,8 @@ def installation_detail(request, installation_id, day=datetime.date.today().day,
                                                     args=[installation_date.day, installation_date.month,
                                                           installation_date.year]))
             return HttpResponseRedirect(reverse('installation_app:installation_detail', args=[installation_id]))
-    context = {'installation_id':installation_id,'installation_form':installation_form}
+    context = {'installation_id':installation_id,'installation_form':installation_form, 'installation':installation,
+               'installation_images':installation_images}
     context.update(today_date_weekday())
     context.update(month_installation_count(user_id=user_id))
     context.update()
@@ -91,8 +99,13 @@ def installation_detail(request, installation_id, day=datetime.date.today().day,
 def delete_installation(request, installation_id, day, month, year):
     print(installation_id)
     if request.user.is_staff:
+        installation_images = InstallationImage.objects.filter(installation=installation_id)
+        print(installation_images)
+        for installation_image in installation_images:
+            installation_image.delete()
         installation = Installation.objects.get(id=installation_id)
         installation.delete()
+
     return HttpResponseRedirect(reverse('installation_app:all_installation',args=[day, month,year]))
 
 
@@ -115,3 +128,7 @@ def add_field_element(request, template, form, fieldname):
                 print(new_element_name)
             data_dict = {'new_element_id':new_element_id, 'new_element_name':new_element_name}
             return JsonResponse(data_dict)
+
+
+def add_image(request, installation_id):
+    pass

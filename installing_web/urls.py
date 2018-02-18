@@ -26,4 +26,5 @@ urlpatterns = [
     path('installations/', include('installation_app.urls', namespace='installation_app')),
     path('reports/', include('reports_app.urls', namespace='reports_app')),
 
-]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)\
++static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -111,7 +111,7 @@ DATE_FORMAT = 'd.m.Y'
 
 DATE_INPUT_FORMATS = ['%d.%m.%Y', '%d,%m,%Y', '%d/%m/%Y','%d-%m-%Y']
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pl'
 
 TIME_ZONE = 'UTC'
 
@@ -127,4 +127,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
