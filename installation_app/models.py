@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from PIL import Image
 # Create your models here.
 
 class InstallationStandart(models.Model):
@@ -34,8 +35,15 @@ class InstallationImage(models.Model):
                 this_entry.image.delete(save=False)
         except:
             pass
-
         super(InstallationImage, self).save(*args, **kwargs)
+        image = Image.open(self.image.path)
+        max_size = max(image.size[0], image.size[1])
+        multiplier = max_size/600
+        image = image.resize((round(image.size[0]/multiplier), round(image.size[1]/multiplier)), Image.ANTIALIAS)
+        image.save(self.image.path)
+        print(image.size)
+
+        image.save(self.image.path)
 
     def delete(self, *args, **kwargs):
         self.image.delete(save=False)
