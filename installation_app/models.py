@@ -38,7 +38,7 @@ class InstallationImage(models.Model):
         super(InstallationImage, self).save(*args, **kwargs)
         image = Image.open(self.image.path)
         max_size = max(image.size[0], image.size[1])
-        multiplier = max_size/600
+        multiplier = max_size/1200
         image = image.resize((round(image.size[0]/multiplier), round(image.size[1]/multiplier)), Image.ANTIALIAS)
         image.save(self.image.path)
         print(image.size)
@@ -74,7 +74,7 @@ class Installation(models.Model):
     accepted = models.BooleanField(default=False, verbose_name='Potwierdzona')
 
     def __str__(self):
-        return self.number + str(self.date) + self.address
+        return '%s | %s | %s' % (self.number, self.date, self.address)
 
     def save(self, *args, **kwargs):
         self.number = self.number.upper()

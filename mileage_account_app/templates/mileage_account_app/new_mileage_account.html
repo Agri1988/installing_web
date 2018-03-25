@@ -1,0 +1,7 @@
+{% extends 'base_app/base.html' %}
+{% load staticfiles %}
+{% block first_block %}
+    {% include 'mileage_account_app/base_new_mileage_account.html' with form=form %}
+{% endblock %}
+
+

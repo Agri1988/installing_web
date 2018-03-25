@@ -1,0 +1,22 @@
+{% extends 'base_app/base.html' %}
+{% load staticfiles %}
+{% block first_block %}
+    <script type="text/javascript " src="{% static 'mileage_account_app/js/detail_mileage_account.js' %}"></script>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 ">
+                 <form id="car_refueling" method="post" enctype="multipart/form-data"
+                      action="">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <p><button type="submit">Zapisać</button></p>
+                </form>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript" src="{% static 'base_app/js/django_form.js' %}"></script>
+    <script>bootstrap_form('#car_refueling')</script>
+    <script type="text/javascript"> $('#id_mileage').prop('id', 'id_start_mileage')</script>
+{% endblock %}
+
+

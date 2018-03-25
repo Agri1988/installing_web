@@ -1,0 +1,30 @@
+{% extends 'base_app/base.html' %}
+{% block first_block %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 ">
+                <div class="table-responsive ">
+                    <table  id="cars_table" class="table table-bordered">
+                        {% for car in cars %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ car.model }}</td>
+                                <td><a href="{% if user.is_staff %}
+                                {% url 'mileage_account_app:detail_car' car.id %}
+                                {% else %}#{% endif %}">{{ car.number }}</a></td>
+                            </tr>
+                        {% endfor %}
+
+                    </table>
+                    {% if user.is_staff %}
+                        <form action="{% url 'mileage_account_app:new_car' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn">Dodać nowy samochód</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

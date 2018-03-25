@@ -1,0 +1,30 @@
+{% extends 'base_app/base.html' %}
+{% load staticfiles %}
+{% block first_block %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 ">
+                <div class="table-responsive ">
+                    <table  id="table" class="table table-bordered">
+                        {% for car_refueling in car_refuelings %}
+                            <tr>
+                                <td><a href="{% url 'mileage_account_app:detail_car_refueling'  car_refueling.id %}">
+                                    {{ forloop.counter }}</a></td>
+                                <td><a href="{% url 'mileage_account_app:detail_car_refueling'  car_refueling.id %}">
+                                    {{ car_refueling.car }}</a></td>
+                                <td>{{ car_refueling.mileage }}</td>
+                                <td>{{ car_refueling.refueling_quantity }}</td>
+                                <td>{{ car_refueling.refueling_cost }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    </table>
+                    <form action="{% url 'mileage_account_app:new_car_refueling' %}" method="get">
+                        <button type="submit" class="btn">Dodać nowe tankowanie</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

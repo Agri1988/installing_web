@@ -66,7 +66,7 @@ def add_user(request):
     context = {'create_user_form':create_user_form}
     return render(request, 'users_app/add_user.html', context)
 
-
+@login_required(login_url='users_app:login')
 def users_list(request):
     active_user = User.objects.filter(is_active=True)
     un_active_user = User.objects.filter(is_active=False)

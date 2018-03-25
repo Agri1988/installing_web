@@ -9,6 +9,8 @@
             <script type="text/javascript">var url_add_type = "{% url 'installation_app:add_type' %}"</script>
             <script type="text/javascript" src="{% static 'installation_app/js/add_type.js' %}"></script>
         {% endif %}
+        <script type="text/javascript" src="{% static 'installation_app/js/installation_detail.js' %}"></script>
+        <script type="text/javascript" src="{% static 'installation_app/js/add_mileage_account.js' %}"></script>
 
     <div class="container">
         <div class="row">
@@ -23,19 +25,22 @@
                             {% endfor %}
 
                         {% endif %}
+                        <input id="installation_id" hidden value="{{ installation_id }}">
                         <p><input id="add_image_id" type="file" name="image" onchange="submit_form()"></p>
+                        {% if installation_id %}
+                            <p><input id="add_mileage_account" type="button" value="Dodać dane do kilometrówki"></p><br>
+                        {% endif %}
                         <p><button name="submit">Zapisać</button></p>
                         <p><button name="submit_and_return">Zapisz i wróć</button></p>
 
                         <script type="text/javascript"> function submit_form() {
-                            $('[name="submit"]').click()
+                            $('[name="submit"]').click();
                             location.hash = 'add_image_id'
                             }
                         </script>
                     {% if installation_images %}
                         <script type="text/javascript"></script>
                 {% endif %}
-                    
                 </form>
 
             </div>
@@ -43,4 +48,11 @@
     </div>
     <script type="text/javascript" src="{% static 'base_app/js/django_form.js' %}"></script>
         <script type="text/javascript"> bootstrap_form('#installation_detail_form')</script>
+        <script type="text/javascript">
+            var date_field = $('#id_date');
+            var date_field_value = date_field.val()
+            date_field.prop('type', 'date');
+            date_field.val(date_field_value.substring(6)+'-'+date_field_value.substring(3,5)+'-'+date_field_value.substring(0,2))
+
+        </script>
 {% endblock %}

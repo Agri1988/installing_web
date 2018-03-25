@@ -1,0 +1,31 @@
+{% extends 'base_app/base.html' %}
+{% load staticfiles %}
+{% block first_block %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 ">
+                <div class="table-responsive ">
+                    <table  id="table" class="table table-bordered">
+                        {% for mileage_account in mileage_accounts %}
+                            <tr>
+                                <td><a href="{% url 'mileage_account_app:detail_mileage_account' mileage_account.id%}">{{ forloop.counter }}</a></td>
+                                <td><a href="{% url 'mileage_account_app:detail_mileage_account' mileage_account.id%}">{{ mileage_account.car }}</a></td>
+                                <td>{{ mileage_account.date.day }}.{{ mileage_account.date.month }}.{{ mileage_account.date.year}}</td>
+                                <td>{{ mileage_account.user }}</td>
+                                <td>{{ mileage_account.installation.address }}</td>
+                                <td>{% if  mileage_account.comments == None%} {% else %}{{ mileage_account.comments }}{% endif %}</td>
+                                <td>{{ mileage_account.start_mileage }}</td>
+                                <td>{{ mileage_account.end_mileage }}</td>
+                            </tr>
+                        {% endfor %}
+
+                    </table>
+                    <form action="{% url 'mileage_account_app:new_mileage_account' %}" method="get">
+                        <button type="submit" class="btn">Dodać nową kilometrówkę</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

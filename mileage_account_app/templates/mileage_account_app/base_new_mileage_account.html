@@ -1,0 +1,19 @@
+{% load staticfiles %}
+
+<div class="container">
+        <div class="row">
+            <div class="col-lg-6 ">
+                 <form id="mileage_account_detail_form" method="post" enctype="multipart/form-data"
+                      action="">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <p><button type="submit">Zapisać</button></p>
+                     <input id="url" hidden value="{% url 'mileage_account_app:new_mileage_account' %}">
+                </form>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript" src="{% static 'base_app/js/django_form.js' %}"></script>
+    <script>bootstrap_form('#mileage_account_detail_form')</script>
+    <script type="text/javascript"> $('#id_date').prop('type', 'date')</script>
+    <script type="text/javascript" src="{% static 'mileage_account_app/js/detail_mileage_account.js' %}"></script>
