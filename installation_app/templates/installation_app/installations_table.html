@@ -57,7 +57,7 @@
                                 {% endif %}
                             {% endif %}
                         </td>
-                        <td>{{ installation.date }}</td>
+                        <td>{{ installation.date.isoformat }}</td>
                         <td>{{ installation.get_time_slot_display }}</td>
                         <td>{{ installation.address }}</td>
                         <td>

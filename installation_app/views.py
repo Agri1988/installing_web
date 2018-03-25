@@ -139,3 +139,4 @@ def add_field_element(request, template, form, fieldname):
 
 def add_image(request, installation_id):
     pass
+
