@@ -34,3 +34,8 @@ class CarRefuelingForm(forms.ModelForm):
         model = CarRefueling
         fields = '__all__'
 
+    def __init__(self, *args, **kwargs):
+        forms.ModelForm.__init__(self, *args, **kwargs)
+        self.fields['employee'].queryset = User.objects.filter(is_staff=False, is_active=True)
+
+

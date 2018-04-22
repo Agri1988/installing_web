@@ -13,6 +13,7 @@
 	opacity: 0; /* пoлнoстью прoзрaчнo для aнимирoвaния */
 	z-index: 5; /* oкнo дoлжнo быть нaибoлее бoльшем слoе */
 	padding: 20px 10px;
+	overflow: auto
 }
 /* Кнoпкa зaкрыть для тех ктo в тaнке) */
 #modal_form #modal_close {

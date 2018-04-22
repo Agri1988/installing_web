@@ -16,9 +16,14 @@
 <script type="text/javascript" src="{% static 'base_app/js/django_form.js' %}"></script>
     <script>bootstrap_form('#mileage_account_detail_form')</script>
     <script type="text/javascript" src="{% static 'mileage_account_app/js/detail_mileage_account.js' %}"></script>
-<script type="text/javascript">
+    <script type="text/javascript">
         var date_field = $('#id_date');
         var date_field_value = date_field.val();
         date_field.prop('type', 'date');
-        date_field.val(date_field_value.substring(6)+'-'+date_field_value.substring(3,5)+'-'+date_field_value.substring(0,2))
+        console.log(date_field_value.substring(2,3));
+        if (date_field_value.substring(2,3) == '.'){
+
+            date_field.val(date_field_value.substring(6)+'-'+date_field_value.substring(3,5)+'-'+date_field_value.substring(0,2))
+        }
+
     </script>

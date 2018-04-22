@@ -10,7 +10,7 @@
                             <tr>
                                 <td><a href="{% url 'mileage_account_app:detail_mileage_account' mileage_account.id%}">{{ forloop.counter }}</a></td>
                                 <td><a href="{% url 'mileage_account_app:detail_mileage_account' mileage_account.id%}">{{ mileage_account.car }}</a></td>
-                                <td>{{ mileage_account.date.day }}.{{ mileage_account.date.month }}.{{ mileage_account.date.year}}</td>
+                                <td>{{ mileage_account.date|date:'d.m.Y'}}</td>
                                 <td>{{ mileage_account.user }}</td>
                                 <td>{{ mileage_account.installation.address }}</td>
                                 <td>{% if  mileage_account.comments == None%} {% else %}{{ mileage_account.comments }}{% endif %}</td>

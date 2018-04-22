@@ -116,6 +116,8 @@ def delete_installation_image(request, installation_image_id):
     installation_image.delete()
     return HttpResponseRedirect(reverse('installation_app:installation_detail',args=[installation_id]))
 
+
+@login_required(login_url='users_app:login')
 def add_field_element(request, template, form, fieldname):
     if request.user.is_staff:
         print(request.GET)

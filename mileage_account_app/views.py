@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -13,11 +14,13 @@ from .models import Car, MileageAccount, CarRefueling
 from .forms import CarForm, MileageAccountWithInstallationForm, MileageAccountWithOutInstallationForm, CarRefuelingForm
 
 # Create your views here.
+@login_required(login_url='users_app:login')
 def all_cars(request):
     cars = Car.objects.all()
     return render(request, 'mileage_account_app/all_cars.html', {'cars':cars})
 
 
+@login_required(login_url='users_app:login')
 def detail_car(request, car_id=None):
     if request.user.is_staff:
         if car_id != None:
@@ -38,12 +41,14 @@ def detail_car(request, car_id=None):
         return HttpResponseRedirect(reverse('mileage_account_app:all_cars'))
 
 
+@login_required(login_url='users_app:login')
 def all_mileage_accounts(request):
     mileage_accounts = MileageAccount.objects.all()
     context = {'mileage_accounts':mileage_accounts}
     return render(request, 'mileage_account_app/all_mileage_accounts.html', context)
 
 
+@login_required(login_url='users_app:login')
 def detail_mileage_account(request, mileage_account_id=None):
     print(request.method)
     def get_form(instance, initial=None, installation=True, data=None):
@@ -79,6 +84,7 @@ def detail_mileage_account(request, mileage_account_id=None):
     return render(request, 'mileage_account_app/new_mileage_account.html', context)
 
 
+@login_required(login_url='users_app:login')
 def detail_mileage_account_base_installation(request, installation_id, date, user):
     form = MileageAccountWithInstallationForm(instance=MileageAccount(),
             initial={'installation':Installation.objects.get(id=installation_id),
@@ -89,6 +95,7 @@ def detail_mileage_account_base_installation(request, installation_id, date, use
     return HttpResponse(template.render(context, request))
 
 
+@login_required(login_url='users_app:login')
 def get_last_mileage(request, car_id):
     mileage_accounts = MileageAccount.objects.filter(car=car_id).order_by('-end_mileage')
     for i in mileage_accounts:
@@ -97,12 +104,14 @@ def get_last_mileage(request, car_id):
     return JsonResponse({'last_mileage':end_mileage})
 
 
+@login_required(login_url='users_app:login')
 def all_car_refueling(request):
     car_refuelings = CarRefueling.objects.all()
     context = {'car_refuelings':car_refuelings}
     return render(request, 'mileage_account_app/all_car_refueling.html', context)
 
 
+@login_required(login_url='users_app:login')
 def detail_car_refueling(request, car_refueling_id=None):
     if car_refueling_id != None:
         car_refueling = CarRefueling.objects.get(id=car_refueling_id)

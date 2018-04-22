@@ -14,4 +14,13 @@ $(document).ready(function () {
         }
         else {comments.prop('style','display:none')}
     })
+    var address = $('#id_success')
+    address.on('click', function () {
+        if ($('#installation_id').val() == '0'){
+            $('[name="submit"]').trigger('click')
+        }
+    })
+    if ($('#installation_id').val() != '0'){
+        location.hash = 'add_mileage_account'
+    }
 });
