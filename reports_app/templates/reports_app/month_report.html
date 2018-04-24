@@ -29,7 +29,13 @@
                             </tr>
                         {% for element in report %}
                             <tr>
-                                <td>{{ forloop.counter }}</td>
+                                <td><span
+                                {% if element.accepted %}
+                                    style="color:green"
+                                    {% else %}
+                                    style="color:red"
+                                {% endif %}
+                                >{{ forloop.counter }}</span></td>
                                 {% if element.with_contract %}
                                     <td><span style="color: green" class="glyphicon glyphicon-plus"></span></td>
                                 {% else %}

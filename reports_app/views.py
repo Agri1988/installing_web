@@ -15,15 +15,16 @@ from django.contrib.auth.models import User
 from base_app.views import month_name, today_date_weekday, month_installation_count
 
 
-def get_employee_report(employee, month, year):
-    return Installation.objects.filter(date__month=month, date__year=year, accepted=True, success=True). \
+def get_employee_report(employee, month, year, accepted=True):
+    installations = Installation.objects.filter(date__month=month, date__year=year, success=True). \
         filter(Q(employee_1=employee) |
                Q(employee_2=employee) |
                Q(employee_3=employee))
+    return  installations
 
 # Create your views here.
 @login_required(login_url='users_app:login')
-def month_report(request, month, year, employee = None, detail=False):
+def month_report(request, month, year, employee = None, detail=False, not_accepted=False):
     user_id = request.user.pk
     def get_detail_information():
         users_list = {}
@@ -58,7 +59,8 @@ def month_report(request, month, year, employee = None, detail=False):
         print('is_staff')
         try:
             if not employee:
-                report = Installation.objects.filter(date__month=month, date__year=year, accepted=True)
+                report = Installation.objects.filter(date__month=month, date__year=year)
+
                 if detail == True:
                     detail_information=get_detail_information()
             else:
@@ -74,7 +76,7 @@ def month_report(request, month, year, employee = None, detail=False):
             report = get_employee_report(user_id, month, year)
         except:
             return HttpResponseRedirect (reverse ('reports_app:list_month_report'))
-    context = {'report':report, 'month':month, 'year':year, 'employee':employee,
+    context = {'report':report.filter(accepted=True) if not not_accepted else report, 'month':month, 'year':year, 'employee':employee,
                'len_contract':len(report.filter(with_contract=True)),'count_installations':len(report), 'detail':detail,
                'installation_standart':[inst_standart for inst_standart in InstallationStandart.objects.all()],
                'installation_type':[inst_type for inst_type in InstallationType.objects.all()],

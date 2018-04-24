@@ -11,7 +11,7 @@ $(document).ready(function () {
         if (employee){
             event.preventDefault();
             if (more_detail){
-                document.location.href = url+month+'/'+year+'/'+employee+'/detail/'
+                document.location.href = url+month+'/'+year+'/'+employee+'/detail/not_accepted/'
             }
             else {document.location.href = url+month+'/'+year+'/'+employee+'/'}
 
@@ -19,7 +19,7 @@ $(document).ready(function () {
         else{
             event.preventDefault();
             if (more_detail){
-                document.location.href = url+month+'/'+year+'/detail/'
+                document.location.href = url+month+'/'+year+'/detail/not_accepted/'
             }
             else {document.location.href = url+month+'/'+year+'/'}
 

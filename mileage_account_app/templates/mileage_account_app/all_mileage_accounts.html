@@ -1,9 +1,23 @@
 {% extends 'base_app/base.html' %}
 {% load staticfiles %}
 {% block first_block %}
+    <script type="text/javascript">
+        var url = "{% url 'mileage_account_app:all_mileage_accounts' %}"
+        function car_mileage_account(car_id) {
+            location.href = url+car_id+'/'
+        }
+    </script>
     <div class="container">
         <div class="row">
             <div class="col-lg-8 ">
+                <select id="select_car" class="form-control" onchange="car_mileage_account($(this).val())">
+                    {% for car in cars %}
+                        <option {% if selected_car == car.id %}
+                            selected
+                        {% endif %}value="{{ car.id }}">{{ car.model }} {{ car.number }}</option>
+                    {% endfor %}
+
+                </select>
                 <div class="table-responsive ">
                     <table  id="table" class="table table-bordered">
                         {% for mileage_account in mileage_accounts %}

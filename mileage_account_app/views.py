@@ -43,8 +43,18 @@ def detail_car(request, car_id=None):
 
 @login_required(login_url='users_app:login')
 def all_mileage_accounts(request):
-    mileage_accounts = MileageAccount.objects.all()
-    context = {'mileage_accounts':mileage_accounts}
+    cars = Car.objects.all()
+    mileage_accounts = MileageAccount.objects.filter(car=cars[0].id)
+    context = {'mileage_accounts':(mileage_accounts[len(mileage_accounts)-31:] if len(mileage_accounts)>31
+    else mileage_accounts), 'cars':cars, 'selected_car':cars[0].id}
+    return render(request, 'mileage_account_app/all_mileage_accounts.html', context)
+
+
+def car_mileage_accounts(request, car_id):
+    mileage_accounts = MileageAccount.objects.filter(car=car_id)
+    print(len(mileage_accounts))
+    cars = Car.objects.all()
+    context = {'mileage_accounts':mileage_accounts , 'cars':cars, 'selected_car':car_id}
     return render(request, 'mileage_account_app/all_mileage_accounts.html', context)
 
 
@@ -105,9 +115,13 @@ def get_last_mileage(request, car_id):
 
 
 @login_required(login_url='users_app:login')
-def all_car_refueling(request):
-    car_refuelings = CarRefueling.objects.all()
-    context = {'car_refuelings':car_refuelings}
+def all_car_refueling(request, car_id=None):
+    cars = Car.objects.all()
+    if car_id == None:
+        car_refuelings = CarRefueling.objects.filter(car=cars[0].id)
+    else:
+        car_refuelings = CarRefueling.objects.filter(car=car_id)
+    context = {'car_refuelings':car_refuelings, 'cars':cars, 'selected_car':car_id if car_id != None else cars[0].id}
     return render(request, 'mileage_account_app/all_car_refueling.html', context)
 
 

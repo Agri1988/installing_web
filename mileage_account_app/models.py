@@ -36,12 +36,12 @@ class CarRefueling(models.Model):
 class MileageAccount(models.Model):
     car = models.ForeignKey('Car', on_delete=models.PROTECT, verbose_name='Samochód')
     date = models.DateField(verbose_name='Data')
+    start_mileage = models.IntegerField(verbose_name='Początek przebiegu')
+    end_mileage = models.IntegerField(verbose_name='Koniec przebiegu')
     user = models.ForeignKey(User, verbose_name='Pracownik', on_delete=models.PROTECT)
     installation = models.OneToOneField(Installation, default=None, blank=True, null=True, verbose_name='Instalacja',
                                         on_delete=models.PROTECT)
     comments = models.TextField(verbose_name='Cel podróży', default=None, null=True, blank=True)
-    start_mileage = models.IntegerField(verbose_name='Początek przebiegu')
-    end_mileage = models.IntegerField(verbose_name='Koniec przebiegu')
 
     class Meta:
         verbose_name = 'Przebieg'
