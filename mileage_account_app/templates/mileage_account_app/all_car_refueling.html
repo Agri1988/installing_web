@@ -26,8 +26,7 @@
                                     {{ forloop.counter }}</a></td>
                                 <td><a href="{% url 'mileage_account_app:detail_car_refueling'  car_refueling.id %}">
                                     {{ car_refueling.car }}</a></td>
-                                <td>{{ car_refueling.date_time.date|date:'d.m.Y'}}
-                                    {{ car_refueling.date_time.time|time:'H:i' }}</td>
+                                <td>{{ car_refueling.date_time|date:'d.m.Y'}}</td>
                                 <td>{{ car_refueling.employee }}</td>
                                 <td>{{ car_refueling.mileage }}</td>
                                 <td>{{ car_refueling.refueling_quantity }}</td>

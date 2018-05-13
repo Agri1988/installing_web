@@ -44,12 +44,15 @@ def detail_car(request, car_id=None):
 @login_required(login_url='users_app:login')
 def all_mileage_accounts(request):
     cars = Car.objects.all()
-    mileage_accounts = MileageAccount.objects.filter(car=cars[0].id)
+    try:
+        mileage_accounts = MileageAccount.objects.filter(car=cars[0].id)
+    except IndexError:
+        mileage_accounts = None
     context = {'mileage_accounts':(mileage_accounts[len(mileage_accounts)-31:] if len(mileage_accounts)>31
     else mileage_accounts), 'cars':cars, 'selected_car':cars[0].id}
     return render(request, 'mileage_account_app/all_mileage_accounts.html', context)
 
-
+@login_required(login_url='users_app:login')
 def car_mileage_accounts(request, car_id):
     mileage_accounts = MileageAccount.objects.filter(car=car_id)
     print(len(mileage_accounts))

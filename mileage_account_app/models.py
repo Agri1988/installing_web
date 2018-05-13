@@ -18,9 +18,7 @@ class Car(models.Model):
 
 class CarRefueling(models.Model):
     car = models.ForeignKey('Car', on_delete=models.PROTECT, verbose_name='Samochód')
-    date_time = models.DateTimeField(verbose_name='Data', auto_now_add=True)
-    refueling_quantity = models.DecimalField(max_digits=4, decimal_places=2, null=False, blank=False,
-                                             verbose_name='Ilość paliwa')
+    date_time = models.DateField(verbose_name='Data')
     employee = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name='Pracownik', null=False, blank=False)
     mileage = models.IntegerField(verbose_name='Przebieg')
 
@@ -46,7 +44,7 @@ class MileageAccount(models.Model):
     class Meta:
         verbose_name = 'Przebieg'
         verbose_name_plural = 'Przebiegi'
-        ordering = ['car', 'end_mileage']
+        ordering = ['car', '-end_mileage']
 
     def __str__(self):
         return '%s %s' %(self.date, self.car)
