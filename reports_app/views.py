@@ -76,7 +76,8 @@ def month_report(request, month, year, employee = None, detail=False, not_accept
             report = get_employee_report(user_id, month, year)
         except:
             return HttpResponseRedirect (reverse ('reports_app:list_month_report'))
-    context = {'report':report.filter(accepted=True) if not not_accepted else report, 'month':month, 'year':year, 'employee':employee,
+    context = {'report':report.filter(accepted=True) if not not_accepted else report,
+               'month':month, 'year':year, 'employee':employee,
                'len_contract':len(report.filter(with_contract=True)),'count_installations':len(report), 'detail':detail,
                'installation_standart':[inst_standart for inst_standart in InstallationStandart.objects.all()],
                'installation_type':[inst_type for inst_type in InstallationType.objects.all()],
@@ -85,8 +86,10 @@ def month_report(request, month, year, employee = None, detail=False, not_accept
                'installations_type_dict':{inst_type.type:(len(report.filter(installation_type=inst_type.id)))
                                           for inst_type in InstallationType.objects.all()}}
     print(type(month))
-    try:context.update(detail_information)
-    except:pass
+    try:
+        context.update(detail_information)
+    except:
+        pass
     context.update(today_date_weekday())
     context.update({'dict_month_name': month_name(month)})
     context.update(month_installation_count(user_id=user_id))

@@ -1,5 +1,16 @@
 {% extends 'base_app/base.html' %}
+{% load staticfiles %}
 {% block body %}
+    <script>
+    function show_comment(comment, element_id) {
+        var el = $(document).find('#comment_content_'+element_id);
+        el.css("display", "block");
+    }
+    function hide_comment(comment, element_id) {
+        var el = $(document).find('#comment_content_'+element_id);
+        el.css("display", "none");
+    }
+    </script>
     <div class="container">
             {% if report %}
             <div class="row">
@@ -47,7 +58,9 @@
                                 <td>{% if element.installation_type  %}
                                         {{ element.installation_type }}
                                 {% endif %}</td>
-                                <td><a href="{% url 'installation_app:installation_detail' element.pk%}">{{ element.number }}</a> </td>
+                                <td>
+                                    <a href="{% url 'installation_app:installation_detail' element.pk%}">{{ element.number }}</a>
+                                </td>
                                 <td>{{ element.address }}</td>
                                 <td>{{ element.date|date:'d.m.Y' }}</td>
                                 {% if user.is_staff and not employee%}
@@ -83,6 +96,19 @@
                                         <td>{{ element.employee_3 }}</td>
                                     {% endif %}
                                 {% endif %}
+                                <td>
+                                    {% if element.comment %}
+                                        <span id="comment_{{ element.id }}"
+                                              onmouseenter="show_comment('{{ element.comment }}', '{{ element.id  }}')"
+                                              onmouseout="hide_comment('{{ element.comment }}', '{{ element.id  }}')">
+                                            <img height="15%" src="{% static 'reports_app/image/comment.gif' %}">
+                                        </span>
+                                        <div id="comment_content_{{ element.id }}"
+                                             style="display: none; position: relative; top: -100%; left: -100%;">
+                                            {{ element.comment }}
+                                        </div>
+                                    {% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
                         {% ifnotequal  len_contract  0 %}
